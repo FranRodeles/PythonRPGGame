@@ -9,11 +9,12 @@ opciones = ["Nuevo juego", "Cargar juego", "Salir"]
 indice_actual = 0
 console = Console()
 
-
+# FUncion para dibujar el menu
 def dibujar_menu():
     os.system('cls')  # o 'cls' en Windows
     menu_renderizado = []
 
+# crear un panel agregando opcion una por una 
     for i, opcion in enumerate(opciones):
         prefijo = "➤" if i == indice_actual else "  "
         linea = f"[red]{prefijo} {opcion}[/red]" if i == indice_actual else f"  {opcion}"
@@ -25,7 +26,6 @@ def dibujar_menu():
 
 
 def main():
-
     dibujar_menu()
 
 if __name__ == "__main__":
