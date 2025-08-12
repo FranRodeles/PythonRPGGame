@@ -10,7 +10,7 @@ indice_actual = 0
 seleccion_hecha = False
 
 def dibujar_menu():
-    os.system('clear')  # o 'cls' en Windows
+    os.system('cls')  # o 'cls' en Windows
     menu_renderizado = []
 
     for i, opcion in enumerate(opciones):
