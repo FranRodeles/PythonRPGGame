@@ -1,0 +1,38 @@
+{
+    "zona": "Ruinas de Cineria — Tutorial",
+    "nodos": [
+      {
+        "id": "despertar",
+        "tipo": "historia",
+        "ascii": "pj_despertar.txt",
+        "descripcion": "Te despertás tirado entre ceniza tibia. La boca seca, el aire huele a hierro. A lo lejos, una luz parpadea como si respirara.",
+        "opciones": [
+          {
+            "texto": "Seguir esa lucecita (qué puede salir mal).",
+            "resultado": "zona1_tutorial.json#callejon_inicio"
+          },
+          {
+            "texto": "Levantarme, sacudirme la ceniza y avanzar con calma.",
+            "resultado": "zona1_tutorial.json#callejon_inicio"
+          }
+        ]
+      },
+      {
+        "id": "callejon_inicio",
+        "tipo": "evento",
+        "ascii": "callejon.txt",
+        "descripcion": "Un callejón angosto: muros calcinados, puertas selladas con clavos. La luz viene de una lamparita colgada de un gancho oxidado. Algo se mueve detrás.",
+        "opciones": [
+          {
+            "texto": "Acercarme a la lámpara y mirar detrás.",
+            "resultado": "TODO:siguiente_nodo"
+          },
+          {
+            "texto": "Ignorarla y seguir por el callejón.",
+            "resultado": "TODO:siguiente_nodo"
+          }
+        ]
+      }
+    ]
+  }
+  
