@@ -8,30 +8,17 @@ import os
 import sys
 import time
 
-#Esto nos sirve para llamar a las distitas funciones que se encuentran en estas carpetas
-def enlace_opciones():
-    sys.path.append("Nuevo juego")
-    sys.path.append("Cargar partida")
-    sys.path.append("Salir")
-    try:
-        import characters as cha
-        import saves as sav
-    except ModuleNotFoundError:
-        print("Couldn't find the necessary functions, closing the game...")
-        time.sleep(2)
-        sys.exit()
 
 console = Console()
-game_window = None
 
 class Menu():
-    def __init__(self, text, options, console, game_window):
+    def __init__(self, text, options, console):
         self.text = text
         self.options = options
         self.current_option = 0
         self.choice_made = False
         self.console = console
-        self.game_window = game_window
+
  
     #Printea El titulo
     def print_menu(self):
@@ -39,25 +26,47 @@ class Menu():
 
     #Printea Las opciones
     def print_option(self):
-        current_option_key = list(self.options.keys())[self.current_option]
+        current_option_key = self.current_option #Convierte el Diccionario en Lista
         options_text = ""
-        for option in self.options:
-            if option == current_option_key:
-                options_text += f"> {self.options[option]} <\n"
-            else:
+        for option in self.options: #Si coincide el indice de la opcion
+           if option == current_option_key:
+              options_text += f">[bold red on white] {self.options[option]} [/bold red on white]<\n"       #Muestra la opcion seleccionada
+           else:
                 options_text += self.options[option] + "\n"
-        options_text = options_text.rstrip("\n")
+        options_text = options_text.rstrip("\n") #Saca el ultimo salto de linea 
 
         self.console.print(
-            Panel(Text(options_text, justify="center"), box=box.SIMPLE, width=64),
-            justify="center",
-        )
+            Panel(Text.from_markup(options_text, justify="center"), box=box.SIMPLE, width=64),
+            justify="center",)
 
     #Mostrar el menú completo
     def show(self):
         os.system("cls")
         self.print_menu()
         self.print_option()
+
+    def controll_keyboard(self,tecla):
+            indice = self.current_option()
+
+            try:
+                if tecla == keyboard.key.up:
+                        indice_actual = (indice - 1) % len(self.opciones)
+                        self.show()
+                elif tecla == keyboard.key.down:
+                        indice_actual = (indice - 1) % len(self.opciones)
+                        self.show()
+                elif tecla == keyboard.Key.enter:
+                        self.choice_made = True
+                        os.system("cls")
+                        console.print(f"[bold green]Seleccionaste: {indice_actual} [/bold green]")
+
+
+                     
+                     
+
+
+
+    
 
 #Texto del Juego.El titulo-una breve descripcion y las opciones a elegir
 text = "[bold red] Divine Light [/bold red]\n[yellow] This Game is Awesome [/yellow]"
@@ -69,5 +78,5 @@ options = {
 }
 
 #Crear el Menu Principal
-Menu_Principal = Menu(text, options, console, game_window)
+Menu_Principal = Menu(text, options, console)
 Menu_Principal.show()
