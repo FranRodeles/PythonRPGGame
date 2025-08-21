@@ -1,7 +1,6 @@
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
-from rich.layout import Layout
 from pynput import keyboard
 import os
 
@@ -22,7 +21,14 @@ class CharacterMenu:
 
         panels = []
         for i, char in enumerate(self.characters):
-            content = f"[bold]{char['name']}[/bold]\n\n{char['role']}\n\n{char['desc']}\n\n[cyan]ATK[/cyan]: {char['atk']}  [red]DEF[/red]: {char['def']}"
+            content = (
+                f"[bold]{char['name']}[/bold]\n\n"
+                f"{char['role']}\n\n"
+                f"{char['desc']}\n\n"
+                f"[cyan]ATK[/cyan]: {char['atk']}  "
+                f"[magenta]MAGIA[/magenta]: {char['magia']}  "
+                f"[green]PRECISIÓN[/green]: {char['precision']}"
+            )
             if i == self.current_index:
                 panel = Panel(content, title="▶ Seleccionado ◀", border_style="bold yellow")
             else:
@@ -59,11 +65,10 @@ class CharacterMenu:
 
 # Datos de ejemplo
 characters = [
-    {"name": "Aldric", "role": "Guerrero", "desc": "Un maestro de la espada.", "atk": 8, "def": 6},
-    {"name": "Lyra", "role": "Hechicera", "desc": "Controla el fuego y el hielo.", "atk": 9, "def": 3},
-    {"name": "Kael", "role": "Arquero", "desc": "Letal a larga distancia.", "atk": 7, "def": 4}
+    {"name": "Aldric", "role": "Guerrero", "desc": "Un maestro de la espada.", "atk": 8, "magia": 2, "precision": 6},
+    {"name": "Lyra", "role": "Hechicera", "desc": "Controla el fuego y el hielo.", "atk": 5, "magia": 10, "precision": 4},
+    {"name": "Kael", "role": "Arquero", "desc": "Letal a larga distancia.", "atk": 7, "magia": 1, "precision": 9}
 ]
 
 menu = CharacterMenu(characters)
 menu.run()
-
