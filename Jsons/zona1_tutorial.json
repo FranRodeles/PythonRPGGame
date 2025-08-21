@@ -14,6 +14,10 @@
           {
             "texto": "Levantarme, sacudirme la ceniza y avanzar con calma.",
             "resultado": "zona1_tutorial.json#callejon_inicio"
+          },
+          {
+            "texto": "FUnciona con 3 opciones?",
+            "resultado": "zona1_tutorial.json#callejon_inicio"
           }
         ]
       },
@@ -25,11 +29,11 @@
         "opciones": [
           {
             "texto": "Acercarme a la lámpara y mirar detrás.",
-            "resultado": "TODO:siguiente_nodo"
+            "resultado": "zona_2_test.json#prueba"
           },
           {
             "texto": "Ignorarla y seguir por el callejón.",
-            "resultado": "TODO:siguiente_nodo"
+            "resultado": "zona_2_test.json#prueba"
           }
         ]
       }

@@ -1,0 +1,21 @@
+{
+    "zona": "Ruinas de Cineria — Tutorial",
+    "nodos": [
+      {
+        "id": "prueba",
+        "tipo": "historia",
+        "ascii": "pj_despertar.txt",
+        "descripcion": "SOy un nodo de prueba en otro archivo",
+        "opciones": [
+          {
+            "texto": "si entre!!",
+            "resultado": "zona1_tutorial.json#callejon_inicio"
+          },
+          {
+            "texto": "si entre!!",
+            "resultado": "zona1_tutorial.json#callejon_inicio"
+          }
+        ]
+      }
+    ]
+}
