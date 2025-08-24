@@ -74,9 +74,10 @@ options = {
 
 # ------------------Logica----------------------
 #Crear el Menu Principal
-Menu_Principal = Menu(text, options, console)
-Menu_Principal.show()
+if __name__ == "__main__":
+    Menu_Principal = Menu(text, options, console)
+    Menu_Principal.show()
 
-with keyboard.Listener(on_press=Menu_Principal.controll_keyboard) as listener:
-    listener.join()
+    with keyboard.Listener(on_press=Menu_Principal.controll_keyboard) as listener:
+        listener.join()
 

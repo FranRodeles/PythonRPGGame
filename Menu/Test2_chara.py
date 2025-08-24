@@ -32,7 +32,7 @@ class CharacterMenu:
             if i == self.current_index:
                 panel = Panel(content, title="▶ Seleccionado ◀", border_style="bold yellow")
             else:
-                panel = Panel(content, border_style="dim")
+                panel = Panel(content, title = "no seleccionado", border_style="dim")
             panels.append(panel)
 
         console.print()
