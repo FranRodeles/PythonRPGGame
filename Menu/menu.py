@@ -45,7 +45,6 @@ class Menu():
         self.print_option()
 
     def controll_keyboard(self,tecla):
-            indice = self.current_option
 
             if tecla == keyboard.Key.up:
                     self.current_option = (self.current_option - 1) % len(self.options)
@@ -58,7 +57,7 @@ class Menu():
                     os.system("cls")
                     console.print(f"[bold green]Seleccionaste: {self.options[self.current_option]} [/bold green]")
 
-#Texto del Juego.El titulo-una breve descripcion y las opciones a elegir
+
 text = "[bold red] Divine Light [/bold red]\n[yellow] This Game is Awesome [/yellow]"
 
 options = { 
