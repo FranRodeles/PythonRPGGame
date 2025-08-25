@@ -1,21 +1,45 @@
 {
-    "zona": "Ruinas de Cineria — Tutorial",
-    "nodos": [
-      {
-        "id": "prueba",
-        "tipo": "historia",
-        "ascii": "pj_despertar.txt",
-        "descripcion": "SOy un nodo de prueba en otro archivo",
-        "opciones": [
-          {
-            "texto": "si entre!!",
-            "resultado": "zona1_tutorial.json#callejon_inicio"
+  "zona": "Ruinas de Cineria — Tutorial",
+  "nodos": [
+    {
+      "id": "prueba",
+      "tipo": "historia",
+      "ascii": "pj_despertar.txt",
+      "descripcion": "Soy un nodo de prueba en otro archivo",
+      "opciones": [
+        {
+          "texto": "si entre!!",
+          "resultado": "zona1_tutorial.json#callejon_inicio"
+        },
+        {
+          "texto": "si entre!!",
+          "resultado": "zona1_tutorial.json#callejon_inicio"
+        }
+      ]
+    },
+    {
+      "id": "encuentro_guardian",
+      "tipo": "combate",
+      "descripcion": "Un Guardián emerge de la ceniza.",
+      "enemigos": [
+        {
+          "nombre": "Guerrero de Ceniza",
+          "ascii": "guardian.txt",
+          "stats": {
+            "HP": 60,
+            "ATK": 14,
+            "DEF": 8,
+            "SPD": 6,
+            "COR": 3
           },
-          {
-            "texto": "si entre!!",
-            "resultado": "zona1_tutorial.json#callejon_inicio"
-          }
-        ]
-      }
-    ]
+          "habilidades": [
+            "Espada de brasas",
+            "Carga oscura"
+          ]
+        }
+      ],
+      "victoria": "#despues_del_guardian",
+      "derrota": "FIN"
+    }
+  ]
 }
