@@ -62,6 +62,13 @@ def render_screen():
         border_style="bright_black",
     )
 
+
+
+
+
+
+
+
     # descripción
     desc_panel = Panel(
         nodo.get("descripcion", ""),
@@ -106,6 +113,8 @@ try:
 
             time.sleep(0.05)
 finally:
+
+    
     listener.stop()
 
 
