@@ -15,17 +15,17 @@ class main_character(Menu):
 
     def __init__(self, text, options ,console):
         super().__init__(text, options, console)
-        self.current_option = 0
-        self.choice_made = False
-        self.options = options
-        self.console = console
-        self.text = text
+        self.current_option = 0   #Indice de opciones
+        self.choice_made = False    #Si se realiza una accion
+        self.options = options      #Lista con todos los personajes y sus caracteristicas
+        self.console = console      #Console
+        self.text = text            #Titulo del menu
 
-    def print_menu(self):
+    def print_menu(self):            #Muestra el titulo
         os.system("cls" if os.name == "nt" else "clear")
         self.console.rule(self.text)
     
-    def print_option(self):
+    def print_option(self):   #Muestra las opciones
 
         panels = []
         for char in self.options:
@@ -40,14 +40,14 @@ class main_character(Menu):
             panels.append(panel)  
 
         console.print()
-        console.print(*panels, justify="center")
+        console.print(*panels, justify="center")  #Desempaqueta todas las opciones de la lista panels y las muestra centradas
         console.print()
         console.rule("[green]   [Enter] Seleccionar   [Esc] Salir    [/green]")
     
-    def show(self):
+    def show(self): #Muestra el titulo y las opciones
         return super().show()
     
-    def controll_keyboard(self, tecla):
+    def controll_keyboard(self, tecla): #Manejo de teclas en el menu
         
         if tecla == keyboard.Key.up:
                 self.current_option = (self.current_option - 1) % len(self.options)

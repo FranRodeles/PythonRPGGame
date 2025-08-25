@@ -12,16 +12,11 @@ from menu import Menu
 console = Console()
 
 class main_character(Menu):
-    def __init__(self, text, character, console):
-        # ----- cambio mínimo: genero 'options' desde 'character' y lo paso al super()
-        # así el Menu base recibe lo que espera (text, options, console)
-        options = {i: c["name"] for i, c in enumerate(character)}
+    def __init__(self, text, options, console):
         super().__init__(text, options, console)
-
         self.current_option = 0
         self.choice_made = False
         self.options = options
-        self.character = character
         self.console = console
         self.text = text
 
@@ -87,7 +82,7 @@ character = [
 ]
 
 if __name__ == "__main__":
-    Menu_Personajes = main_character(text, character, console)
+    Menu_Personajes = main_character(text,character,console)
     Menu_Personajes.show()
 
     # ----- cambio mínimo: usar la instancia correcta en el listener
