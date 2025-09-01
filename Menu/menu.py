@@ -5,8 +5,12 @@ from rich.text import Text
 from rich import box
 from pynput import keyboard
 import os
-import sys
-import time
+
+from Menu.menu_character import main_character, text, character, console
+
+
+
+
 
 
 console = Console()
@@ -55,10 +59,14 @@ class Menu():
             elif tecla == keyboard.Key.enter:
                     self.choice_made = True
                     os.system("cls")
+            if self.current_option == 0:
+                    Menu_Personajes = main_character(text,character, console)
+                    Menu_Personajes.show()
+            else:
                     console.print(f"[bold green]Seleccionaste: {self.options[self.current_option]} [/bold green]")
+            
 
-
-text = "[bold red] Divine Light [/bold red]\n[yellow] This Game is Awesome [/yellow]"
+text_menu = "[bold red] Divine Light [/bold red]\n[yellow] This Game is Awesome [/yellow]"
 
 options = { 
     0 : "Nuevo Juego",
@@ -74,7 +82,7 @@ options = {
 # ------------------Logica----------------------
 #Crear el Menu Principal
 if __name__ == "__main__":
-    Menu_Principal = Menu(text, options, console)
+    Menu_Principal = Menu(text_menu, options, console)
     Menu_Principal.show()
 
     with keyboard.Listener(on_press=Menu_Principal.controll_keyboard) as listener:
