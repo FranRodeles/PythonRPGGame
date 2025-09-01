@@ -7,17 +7,13 @@ from rich.live import Live
 from rich.align import Align
 import time
 
-from reader import JsonReader
+from JsonReaders import JsonReader
 from character import Character
 
 class Enemy(Character):
     def __init__(self, name, vida, type, atk, mage, accuracy, defense, level):
         super().__init__(name, vida, type, atk, mage, accuracy, defense, level)
         
-
-
-
-
 
 def Cargar_datos():
     name = ""

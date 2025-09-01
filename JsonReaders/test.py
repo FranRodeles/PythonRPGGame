@@ -63,12 +63,6 @@ def render_screen():
     )
 
 
-
-
-
-
-
-
     # descripción
     desc_panel = Panel(
         nodo.get("descripcion", ""),

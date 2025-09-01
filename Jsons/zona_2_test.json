@@ -29,8 +29,31 @@
             "HP": 60,
             "ATK": 14,
             "DEF": 8,
-            "SPD": 6,
-            "COR": 3
+            "AG": 6
+          },
+          "habilidades": [
+            "Espada de brasas",
+            "Carga oscura"
+          ]
+        }
+      ],
+      "victoria": "#despues_del_guardian",
+      "derrota": "FIN"
+    },
+    {
+      "id": "encuentro_guardiann",
+      "tipo": "combate",
+      "descripcion": "Un Guardián emerge de la ceniza.",
+      "enemigos": [
+        {
+          "nombre": "Diablo de ceniza",
+          "ascii": "guardian.txt",
+          "stats": {
+            "HP": 100,
+            "ATK": 17,
+            "DEF": 9,
+            "AG": 2
+
           },
           "habilidades": [
             "Espada de brasas",
