@@ -7,14 +7,8 @@
       "ascii": "pj_despertar.txt",
       "descripcion": "Soy un nodo de prueba en otro archivo",
       "opciones": [
-        {
-          "texto": "si entre!!",
-          "resultado": "zona1_tutorial.json#callejon_inicio"
-        },
-        {
-          "texto": "si entre!!",
-          "resultado": "zona1_tutorial.json#callejon_inicio"
-        }
+        { "texto": "¡Entrar!", "resultado": "zona_2_test.json#encuentro_guardian" },
+        { "texto": "¡Entrar (otra vez)!", "resultado": "zona_2_test.json#encuentro_guardian" }
       ]
     },
     {
@@ -25,44 +19,49 @@
         {
           "nombre": "Guerrero de Ceniza",
           "ascii": "guardian.txt",
-          "stats": {
-            "HP": 60,
-            "ATK": 14,
-            "DEF": 8,
-            "AG": 6
-          },
-          "habilidades": [
-            "Espada de brasas",
-            "Carga oscura"
-          ]
+          "stats": { "LEVEL": 1 ,"HP": 60, "ATK": 14, "DEF": 8, "AG": 6 },
+          "habilidades": ["Espada de brasas", "Carga oscura"],
+          "xp": 25
         }
       ],
       "victoria": "#despues_del_guardian",
       "derrota": "FIN"
     },
     {
-      "id": "encuentro_guardiann",
+      "id": "despues_del_guardian",
+      "tipo": "historia",
+      "ascii": "pj_despertar.txt",
+      "descripcion": "El guardián cae hecho brasas. Entre el humo, alguien se acerca tambaleando.",
+      "opciones": [
+        { "texto": "Ayudar a la figura", "resultado": "#encuentro_persona" },
+        { "texto": "Ignorar y seguir",  "resultado": "FIN" }
+      ]
+    },
+    {
+      "id": "encuentro_persona",
       "tipo": "combate",
-      "descripcion": "Un Guardián emerge de la ceniza.",
+      "descripcion": "Una persona desorientada te confunde con un espectro y te ataca.",
       "enemigos": [
         {
-          "nombre": "Diablo de ceniza",
-          "ascii": "guardian.txt",
-          "stats": {
-            "HP": 100,
-            "ATK": 17,
-            "DEF": 9,
-            "AG": 2
-
-          },
-          "habilidades": [
-            "Espada de brasas",
-            "Carga oscura"
-          ]
+          "nombre": "Persona Desorientada",
+          "ascii": "persona.txt",
+          "stats": { "LEVEL": 2 ,"HP": 40, "ATK": 10, "DEF": 5, "AG": 8 },
+          "habilidades": ["Manotazo torpe", "Empujón de pánico"],
+          "xp": 30
         }
       ],
-      "victoria": "#despues_del_guardian",
+      "victoria": "#tras_persona",
       "derrota": "FIN"
+    },
+    {
+      "id": "tras_persona",
+      "tipo": "historia",
+      "ascii": "pj_respiro.txt",
+      "descripcion": "Recobras el aliento. La figura, ya calmada, balbucea sobre una hoguera que nunca se apaga.",
+      "opciones": [
+        { "texto": "Seguir investigando", "resultado": "FIN" },
+        { "texto": "Volver a luchar (test)", "resultado": "#encuentro_persona" }
+      ]
     }
   ]
 }

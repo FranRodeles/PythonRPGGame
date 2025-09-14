@@ -1,5 +1,14 @@
 # test.py
+# test.py (encabezado correcto)
 from pathlib import Path
+import sys
+
+# Añadí la carpeta raíz del repo al sys.path
+ROOT = Path(__file__).resolve().parents[1]   # .../PythonRPGGame/
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+# recién ahora importás paquetes hermanos
 from pynput import keyboard
 from rich.console import Console
 from rich.panel import Panel
@@ -8,7 +17,10 @@ from rich.live import Live
 from rich.align import Align
 import time
 
-from reader import JsonReader  # tu clase en reader.py
+from JsonReaders.reader import JsonReader
+from Character.enemy import Enemy
+
+     
 
 # -------- init ----------
 console = Console()
@@ -45,6 +57,32 @@ listener.start()
 # -------- render ----------
 def render_screen():
     nodo = reader.get_current_node()
+
+    # si es combate, mostramos enemigos en vez de opciones
+        # si es combate, mostramos 1 enemigo fijo
+    if nodo.get("tipo") == "combate":
+        enemigo_raw = nodo["enemigos"][0]
+        enemigo = Enemy.from_json(enemigo_raw)
+
+        desc = nodo.get("descripcion", "")
+        stats_line = (
+            f"- {enemigo.name}: LVL={enemigo.level} "
+            f"HP={enemigo.hp} ATK={enemigo.atk} DEF={enemigo.defense} SPD={enemigo.spd} "
+            f"XP={enemigo.xp_reward}"
+        )
+
+        desc_panel = Panel(
+            f"{desc}\n\n{stats_line}\n\n[dim]Enter para continuar...[/dim]",
+            title=f"[bold red]Combate contra {enemigo.name}[/bold red]",
+            border_style="red"
+        )
+        return desc_panel
+
+
+
+
+
+    # si es historia
     opciones = nodo.get("opciones", [])
 
     # corregir selección fuera de rango
@@ -61,7 +99,6 @@ def render_screen():
         f"[magenta]Nodo:[/magenta] [white]{nodo['id']}[/white]",
         border_style="bright_black",
     )
-
 
     # descripción
     desc_panel = Panel(
@@ -92,7 +129,37 @@ try:
             if quit_flag:
                 break
 
-            # redibujar
+            nodo = reader.get_current_node()
+
+                        # --- caso combate (1 enemigo) ---
+            if nodo.get("tipo") == "combate":
+                enemigo = Enemy.from_json(nodo["enemigos"][0])  # 1 solo
+
+                # 1) Mostrar pantalla de combate (render_screen ya la arma)
+                live.update(render_screen())
+
+                # 2) Esperar Enter para continuar (debug: mostrar objeto)
+                if confirm:
+                    confirm = False
+                    console.print(f"[yellow]DEBUG[/yellow] {enemigo}")
+                    time.sleep(0.3)
+
+                    # 3) Simular resultado y transicionar
+                    outcome = "victoria"  # o "derrota" para probar
+                    next_str = nodo["victoria"] if outcome == "victoria" else nodo["derrota"]
+                    status = reader.jump_to_result(next_str)
+
+                    selected = 0
+                    if status == "FIN" or reader.current_node_id is None:
+                        live.update(Panel("[bold green]Fin.[/bold green]", border_style="green"))
+                        time.sleep(1.0)
+                        break
+
+                # Mientras no se apriete Enter, seguir mostrando el panel de combate
+                continue
+
+
+            # --- caso historia ---
             live.update(render_screen())
 
             # confirmar selección
@@ -107,8 +174,6 @@ try:
 
             time.sleep(0.05)
 finally:
-
-    
     listener.stop()
 
 

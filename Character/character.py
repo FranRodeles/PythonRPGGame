@@ -8,7 +8,7 @@ class Character():
         self.accuracy = accuracy
         self.level = level
         self.experience = experience
-        self.puntos_atributos = puntos_atributos
+        self.puntos_atributos = 0
 
     def subir_level(self):
         self.experience = 0
