@@ -7,8 +7,6 @@ class Character:
         self.mage = mage
         self.accuracy = accuracy
         self.level = level
-
-        # comunes del personaje
         self.experience = experience
         self.puntos_atributos = 0
 

@@ -67,7 +67,7 @@ def render_screen():
         desc = nodo.get("descripcion", "")
         stats_line = (
             f"- {enemigo.name}: LVL={enemigo.level} "
-            f"HP={enemigo.hp} ATK={enemigo.atk} DEF={enemigo.defense} SPD={enemigo.spd} "
+            f"VIDA={enemigo.vida} ATK={enemigo.atk} DEF={enemigo.defense} SPD={enemigo.spd} "
             f"XP={enemigo.xp_reward}"
         )
 
@@ -175,5 +175,3 @@ try:
             time.sleep(0.05)
 finally:
     listener.stop()
-
-
