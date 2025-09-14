@@ -83,5 +83,25 @@ class JsonReader():
         self.set_current_node(nodo_id)
         return "OK"
 
+    # reader.py (dentro de tu clase)
+    def jump_to_result(self, result_str: str) -> str:
+        s = result_str.strip()
+        if s.upper() == "FIN":
+            self.current_node_id = None
+            return "FIN"
+
+        archivo, nodo_id = "", ""
+        if "#" in s:
+            archivo, nodo_id = s.split("#", 1)
+            archivo = archivo.strip()
+            nodo_id = nodo_id.strip()
+
+        if archivo == "" or archivo == self.current_file:
+            self.set_current_node(nodo_id)
+            return "OK"
+
+        self.load_zone(archivo)
+        self.set_current_node(nodo_id)
+        return "OK"
 
 
