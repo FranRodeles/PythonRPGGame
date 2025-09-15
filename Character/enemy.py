@@ -2,18 +2,16 @@
 from Character.character import Character
 
 class Enemy(Character):
-    def __init__(self,
-                 name, type, atk, mage, accuracy, level,
-                 experience, vida, defense, spd,
-                 habilidades=None, ascii_path=None, xp_reward=0):
-        # todo lo base vive en Character (incluye vida y defense)
-        super().__init__(name, type, atk, mage, accuracy, level,
-                         experience=experience, vida=vida, defense=defense)
-        # campos específicos del enemigo
+    def __init__(self, spd, habilidades=None, ascii_path=None, xp_reward=0, **kwargs):
+        # kwargs captura name, type, atk, mage, accuracy, level, experience, vida, defense
+        super().__init__(**kwargs)
+
+        # ahora sí, solo lo extra
         self.spd = spd
         self.habilidades = habilidades or []
         self.ascii = ascii_path
         self.xp_reward = xp_reward
+
 
     @classmethod
     def from_json(cls, data: dict) -> "Enemy":
