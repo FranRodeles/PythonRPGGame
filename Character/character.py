@@ -14,7 +14,3 @@ class Character:
         self.vida = vida
         self.defense = defense
 
-    def subir_level(self):
-        self.experience = 0
-        self.level += 1
-        self.puntos_atributos += 3

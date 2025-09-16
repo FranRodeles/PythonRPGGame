@@ -78,10 +78,6 @@ def render_screen():
         )
         return desc_panel
 
-
-
-
-
     # si es historia
     opciones = nodo.get("opciones", [])
 
@@ -175,11 +171,6 @@ try:
             time.sleep(0.05)
 finally:
     listener.stop()
-
-
-
-
-
 
 
 

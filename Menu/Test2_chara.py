@@ -72,3 +72,4 @@ characters = [
 
 menu = CharacterMenu(characters)
 menu.run()
+
