@@ -66,7 +66,7 @@ text = "[bold magenta]⚔️ Selección de Personajes ⚔️[/bold magenta]"
 
 character = [
     {"id": 0, "name": "Lobo",       "role": "Paladin", "desc": "El personaje más basado 😎",
-     "atk": 7, "acu": 7, "mag": 0,  "def": 5, "vida": 100, "level": 1},
+     "atk": 40, "acu": 7, "mag": 0,  "def": 5, "vida": 100, "level": 1},
 
     {"id": 1, "name": "Gandalf",    "role": "Wizard",  "desc": "pi piri piri pi PI PI PIPI",
      "atk": 3, "acu": 4, "mag": 10, "def": 2, "vida": 60,  "level": 1},
