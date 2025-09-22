@@ -200,12 +200,12 @@ def run_game(player):
                                 if combat_enemy.spd <= player_battle.accuracy:
                                     dado = random.randint(1, 20)
                                     if dado < 18:
-                                        dmg = max(1, player_battle.atk - combat_enemy.defense)
+                                        dmg = (max(1, player_battle.atk - combat_enemy.defense))
                                         combat_enemy.vida -= dmg
                                         combat_log.append(f"{player_battle.name} ataca y causa {dmg} de daño a {combat_enemy.name}.")
                                     else:
-                                        dmg = max(1, player_battle.atk - combat_enemy.defense)
-                                        combat_enemy.vida -= (dmg * 2)
+                                        dmg = (max(1, player_battle.atk - combat_enemy.defense))*2
+                                        combat_enemy.vida -= dmg 
                                         combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg}x2 de daño.")
                                     dado = random.randint(1, 20)
                                     if dado < 19:
@@ -213,8 +213,8 @@ def run_game(player):
                                         player_battle.vida -= edmg
                                         combat_log.append(f"{combat_enemy.name} contraataca e inflige {edmg} de daño.")
                                     else:
-                                        edmg = max(1, combat_enemy.atk - player_battle.defense)
-                                        player_battle.vida -= (edmg * 2)
+                                        edmg = (max(1, combat_enemy.atk - player_battle.defense))*2
+                                        player_battle.vida -= edmg
                                         combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
                                 else:
                                     dado = random.randint(1, 20)
@@ -223,8 +223,8 @@ def run_game(player):
                                         player_battle.vida -= edmg
                                         combat_log.append(f"{combat_enemy.name} contraataca e inflige {edmg} de daño.")
                                     else:
-                                        edmg = max(1, combat_enemy.atk - player_battle.defense)
-                                        player_battle.vida -= (edmg * 2)
+                                        edmg = (max(1, combat_enemy.atk - player_battle.defense))*2
+                                        player_battle.vida -= edmg
                                         combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
                                     dado = random.randint(1, 20)
                                     if dado < 18:
@@ -232,10 +232,10 @@ def run_game(player):
                                         combat_enemy.vida -= dmg
                                         combat_log.append(f"{player_battle.name} ataca y causa {dmg} de daño a {combat_enemy.name}.")
                                     else:
-                                        dmg = max(1, player_battle.atk - combat_enemy.defense)
-                                        combat_enemy.vida -= (dmg * 2)
+                                        dmg = (max(1, player_battle.atk - combat_enemy.defense))*2
+                                        combat_enemy.vida -= dmg
                                         combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg}x2 de daño.")
-                                        
+
                                 if combat_enemy.vida <= 0:
                                     combat_log.append(f"{combat_enemy.name} cae derrotado.")
                                     next_str = nodo.get("victoria")
