@@ -18,6 +18,7 @@ from Character.player import create_player_from_menu_dict
 from JsonReaders.reader import JsonReader
 from Character.enemy import Enemy
 
+
 console = Console()
 
 # ----- estados del launcher -----
@@ -49,6 +50,99 @@ def run_game(player):
     combat_log = []
     last_node_id = None
 
+    # --------- Funciones auxiliares de combate (anidadas) ----------
+    # Se definen aquí para que tengan acceso a las variables locales mediante nonlocal.
+    def Prioridad_Ataque():
+        """Realiza el intercambio de golpes según prioridad. Modifica combat_enemy, player_battle y combat_log."""
+        nonlocal combat_enemy, player_battle, combat_log
+
+        # Si el jugador actúa primero (aquí comparamos velocidad del enemigo contra precisión del jugador,
+        # aunque esa comparación es extraña, la mantuve para respetar tu lógica original)
+        if combat_enemy.spd <= player_battle.accuracy:
+            # Ataque del jugador
+            dado_player = random.randint(1, 20)
+            if dado_player < 18:
+                dmg = max(1, player_battle.atk - combat_enemy.defense)
+                combat_enemy.vida -= dmg
+                combat_log.append(f"{player_battle.name} ataca y causa {dmg} de daño a {combat_enemy.name}.")
+            else:
+                dmg = max(1, player_battle.atk - combat_enemy.defense) * 2
+                combat_enemy.vida -= dmg
+                combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg} de daño.")
+
+            # Turno del enemigo (si sigue vivo)
+            if combat_enemy.vida > 0:
+                dado_enemy = random.randint(1, 20)
+                if dado_enemy < 19:
+                    edmg = max(1, combat_enemy.atk - player_battle.defense)
+                    player_battle.vida -= edmg
+                    combat_log.append(f"{combat_enemy.name} contraataca e inflige {edmg} de daño.")
+                else:
+                    edmg = max(1, combat_enemy.atk - player_battle.defense) * 2
+                    player_battle.vida -= edmg
+                    combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
+        else:
+            # Enemigo ataca primero
+            dado_enemy = random.randint(1, 20)
+            if dado_enemy < 19:
+                edmg = max(1, combat_enemy.atk - player_battle.defense)
+                player_battle.vida -= edmg
+                combat_log.append(f"{combat_enemy.name} ataca e inflige {edmg} de daño.")
+            else:
+                edmg = max(1, combat_enemy.atk - player_battle.defense) * 2
+                player_battle.vida -= edmg
+                combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
+
+            # Si el jugador sigue vivo, responde
+            if player_battle.vida > 0:
+                dado_player = random.randint(1, 20)
+                if dado_player < 18:
+                    dmg = max(1, player_battle.atk - combat_enemy.defense)
+                    combat_enemy.vida -= dmg
+                    combat_log.append(f"{player_battle.name} contraataca y causa {dmg} de daño a {combat_enemy.name}.")
+                else:
+                    dmg = max(1, player_battle.atk - combat_enemy.defense) * 2
+                    combat_enemy.vida -= dmg
+                    combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg} de daño.")
+
+    def Control_vida(nodo):
+        """
+        Revisa si alguien murió y maneja salto de nodo.
+        Devuelve:
+          - ("FIN", status) -> se debe mostrar pantalla FIN y romper el loop
+          - ("CONTINUE", status) -> se realizó un salto a otro nodo distinto de FIN; el bucle debe continuar
+          - ("OK", None) -> nadie murió, seguir normalmente
+        """
+        nonlocal combat_enemy, player_battle, combat_log, in_combat, last_node_id, selected
+
+        # Enemigo muerto
+        if combat_enemy is not None and combat_enemy.vida <= 0:
+            combat_log.append(f"{combat_enemy.name} cae derrotado.")
+            next_str = nodo.get("victoria")
+            status = reader.jump_to_result(next_str)
+            in_combat = False
+            last_node_id = None
+            selected = 0
+            if status == "FIN" or reader.current_node_id is None:
+                return ("FIN", status)
+            return ("CONTINUE", status)
+
+        # Jugador muerto
+        if player_battle is not None and player_battle.vida <= 0:
+            combat_log.append(f"{player_battle.name} ha sido derrotado.")
+            next_str = nodo.get("derrota")
+            status = reader.jump_to_result(next_str)
+            in_combat = False
+            last_node_id = None
+            selected = 0
+            if status == "FIN" or reader.current_node_id is None:
+                return ("FIN", status)
+            return ("CONTINUE", status)
+
+        return ("OK", None)
+
+    # ---------------- fin funciones auxiliares ----------------
+
     def on_press(key):
         nonlocal selected, confirm, quit_flag
         try:
@@ -75,15 +169,17 @@ def run_game(player):
 
         # --- combate ---
         if nodo.get("tipo") == "combate":
+            # inicializar combate al entrar al nodo por primera vez
             if last_node_id != nodo.get("id"):
                 enemigo_raw = nodo["enemigos"][0]
                 combat_enemy = Enemy.from_json(enemigo_raw)
-                player_battle = copy.deepcopy(player)
+                player_battle = copy.deepcopy(player)  # copia para la batalla (no tocar el jugador global aún)
                 combat_log = [nodo.get("descripcion", "¡Combate!")]
                 selected = 0
                 in_combat = True
                 last_node_id = nodo.get("id")
 
+            # Construir panel de jugador
             player_stats = (
                 f"[bold]{player_battle.name}[/bold] ([cyan]{player_battle.type}[/cyan])\n"
                 f"LVL={player_battle.level} VIDA={player_battle.vida} ATK={player_battle.atk} "
@@ -91,6 +187,7 @@ def run_game(player):
             )
             player_panel = Panel(player_stats, title="[bold green]Jugador[/bold green]", border_style="green")
 
+            # Intentar cargar arte ASCII del enemigo (si hay archivo)
             ascii_text = ""
             if getattr(combat_enemy, "ascii", None):
                 try:
@@ -115,7 +212,9 @@ def run_game(player):
             )
             enemy_panel = Panel(f"{ascii_text}\n\n{enemy_stats}", title=f"[bold red]Enemigo[/bold red]", border_style="red")
 
+            # Opciones de combate
             opciones = ["Atacar", "Huir"]
+            # clamp visual del seleccionado para este menú
             if selected < 0:
                 selected = len(opciones) - 1
             if selected >= len(opciones):
@@ -128,6 +227,7 @@ def run_game(player):
                 cursor = "→" if i == selected else " "
                 table.add_row(cursor, opt)
 
+            # registro (últimas líneas)
             log_text = "\n".join(combat_log[-6:])
             log_panel = Panel(log_text, title="[bold]Registro[/bold]", border_style="bright_black")
 
@@ -147,8 +247,9 @@ def run_game(player):
 
             return Panel(layout, border_style="white")
 
-        # --- historia ---
+        # --- historia (como antes) ---
         opciones = nodo.get("opciones", [])
+        # clamp visual del seleccionado
         if opciones:
             if selected < 0:
                 selected = len(opciones) - 1
@@ -185,87 +286,40 @@ def run_game(player):
         with Live(render_screen(), refresh_per_second=30, screen=True) as live:
             while True:
                 if quit_flag:
+                    # salir al menú principal
                     clear()
                     break
 
                 nodo = reader.get_current_node()
 
-                # combate
+                # --- combate ---
                 if nodo.get("tipo") == "combate":
                     live.update(render_screen())
                     if confirm:
                         confirm = False
+                        # Si no hay estado de combate inicializado, lo hará render_screen() al entrar
+                        # Procesar la selección en el combate
+                        # selected: 0=Atacar, 1=Huir
                         if in_combat and combat_enemy is not None:
-                            if selected == 0:  # atacar
-                                if combat_enemy.spd <= player_battle.accuracy:
-                                    dado = random.randint(1, 20)
-                                    if dado < 18:
-                                        dmg = (max(1, player_battle.atk - combat_enemy.defense))
-                                        combat_enemy.vida -= dmg
-                                        combat_log.append(f"{player_battle.name} ataca y causa {dmg} de daño a {combat_enemy.name}.")
-                                    else:
-                                        dmg = (max(1, player_battle.atk - combat_enemy.defense))*2
-                                        combat_enemy.vida -= dmg 
-                                        combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg}x2 de daño.")
-                                    dado = random.randint(1, 20)
-                                    if dado < 19:
-                                        edmg = max(1, combat_enemy.atk - player_battle.defense)
-                                        player_battle.vida -= edmg
-                                        combat_log.append(f"{combat_enemy.name} contraataca e inflige {edmg} de daño.")
-                                    else:
-                                        edmg = (max(1, combat_enemy.atk - player_battle.defense))*2
-                                        player_battle.vida -= edmg
-                                        combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
-                                else:
-                                    dado = random.randint(1, 20)
-                                    if dado < 19:
-                                        edmg = max(1, combat_enemy.atk - player_battle.defense)
-                                        player_battle.vida -= edmg
-                                        combat_log.append(f"{combat_enemy.name} contraataca e inflige {edmg} de daño.")
-                                    else:
-                                        edmg = (max(1, combat_enemy.atk - player_battle.defense))*2
-                                        player_battle.vida -= edmg
-                                        combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
-                                    dado = random.randint(1, 20)
-                                    if dado < 18:
-                                        dmg = max(1, player_battle.atk - combat_enemy.defense)
-                                        combat_enemy.vida -= dmg
-                                        combat_log.append(f"{player_battle.name} ataca y causa {dmg} de daño a {combat_enemy.name}.")
-                                    else:
-                                        dmg = (max(1, player_battle.atk - combat_enemy.defense))*2
-                                        combat_enemy.vida -= dmg
-                                        combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg}x2 de daño.")
-
-                                if combat_enemy.vida <= 0:
-                                    combat_log.append(f"{combat_enemy.name} cae derrotado.")
-                                    next_str = nodo.get("victoria")
-                                    status = reader.jump_to_result(next_str)
-                                    in_combat = False
-                                    last_node_id = None
-                                    selected = 0
-                                    if status == "FIN" or reader.current_node_id is None:
-                                        live.update(Panel("[bold green]Fin.[/bold green]", border_style="green"))
-                                        while not quit_flag:
-                                            time.sleep(0.05)
-                                        break
+                            if selected == 0:  # Atacar
+                                # Llamamos a la función que realiza el intercambio de golpes
+                                Prioridad_Ataque()
+                                # Verificamos muertes / saltos de nodo
+                                action, status = Control_vida(nodo)
+                                if action == "FIN":
+                                    # Mostrar FIN y esperar ESC para volver
+                                    live.update(Panel("[bold green]Fin.[/bold green]", border_style="green"))
+                                    while not quit_flag:
+                                        time.sleep(0.05)
+                                    break
+                                elif action == "CONTINUE":
+                                    # saltó a otro nodo distinto de FIN: actualizar pantalla y continuar
+                                    live.update(render_screen())
                                     continue
-
-                                if player_battle.vida <= 0:
-                                    combat_log.append(f"{player_battle.name} ha sido derrotado.")
-                                    next_str = nodo.get("derrota")
-                                    status = reader.jump_to_result(next_str)
-                                    in_combat = False
-                                    last_node_id = None
-                                    selected = 0
-                                    if status == "FIN" or reader.current_node_id is None:
-                                        live.update(Panel("[bold green]Fin.[/bold green]", border_style="green"))
-                                        while not quit_flag:
-                                            time.sleep(0.05)
-                                        break
-                                    continue
-
-                            elif selected == 1:  # huir
-                                if random.random() < 0.5:
+                                # si "OK" -> seguimos normalmente (se caerá hacia el update/render)
+                            elif selected == 1:  # Huir (intento simple)
+                                chance = random.random()
+                                if chance < 0.5:
                                     combat_log.append(f"{player_battle.name} logra huir con éxito.")
                                     next_str = nodo.get("derrota", "FIN")
                                     status = reader.jump_to_result(next_str)
@@ -277,34 +331,36 @@ def run_game(player):
                                         while not quit_flag:
                                             time.sleep(0.05)
                                         break
+                                    live.update(render_screen())
                                     continue
                                 else:
                                     combat_log.append(f"{player_battle.name} intenta huir pero falla.")
                                     edmg = max(1, combat_enemy.atk - player_battle.defense)
                                     player_battle.vida -= edmg
-                                    combat_log.append(f"{combat_enemy.name} golpea por {edmg} de daño.")
-                                    if player_battle.vida <= 0:
-                                        combat_log.append(f"{player_battle.name} ha sido derrotado.")
-                                        next_str = nodo.get("derrota")
-                                        status = reader.jump_to_result(next_str)
-                                        in_combat = False
-                                        last_node_id = None
-                                        selected = 0
-                                        if status == "FIN" or reader.current_node_id is None:
-                                            live.update(Panel("[bold green]Fin.[/bold green]", border_style="green"))
-                                            while not quit_flag:
-                                                time.sleep(0.05)
-                                            break
+                                    combat_log.append(f"{combat_enemy.name} te golpea por {edmg} de daño por intentar huir.")
+                                    # verificar muerte tras penalización
+                                    action, status = Control_vida(nodo)
+                                    if action == "FIN":
+                                        live.update(Panel("[bold green]Fin.[/bold green]", border_style="green"))
+                                        while not quit_flag:
+                                            time.sleep(0.05)
+                                        break
+                                    if action == "CONTINUE":
+                                        live.update(render_screen())
+                                        continue
+                                    live.update(render_screen())
+                                    time.sleep(0.15)
                                     continue
 
-                # historia
+                # --- historia ---
                 live.update(render_screen())
+
                 if confirm:
                     status = reader.jump_to_by_index(selected)
                     confirm = False
                     selected = 0
                     if status == "FIN" or reader.current_node_id is None:
-                        live.update(Panel("[bold green]Fin.[/bold green]", border_style="green"))
+                        live.update(Panel("[bold green]Fin.[/bold green] (Esc para volver)", border_style="green"))
                         while not quit_flag:
                             time.sleep(0.05)
                         break
@@ -392,6 +448,7 @@ def main():
 
         return True
 
+    # Listener del launcher (sólo para menús)
     with keyboard.Listener(on_press=on_press) as listener:
         while running:
             time.sleep(0.05)
