@@ -1,0 +1,357 @@
+{
+  "zona": "Afueras del Castillo Gris — Zona 1",
+  "nodos": [
+    {
+      "id": "despertar",
+      "tipo": "historia",
+      "ascii": "pj_despertar.txt",
+      "descripcion": "Te despertás sobre grava húmeda. Las torres de hierro y concreto del Castillo Gris se recortan contra un cielo sin sol. El viento trae olor a óxido y a aceite viejo. Las murallas no tienen ventanas: solo hendiduras que miran como ojos cerrados. Delante, un sendero de clavos incrustados guía hacia una puerta lateral custodiada por siluetas inmóviles.",
+      "opciones": [
+        { "texto": "Incorporarme y seguir el sendero de clavos.", "resultado": "#camino_grava" },
+        { "texto": "Mirar alrededor, buscar restos o marcas.", "resultado": "#camino_grava" },
+        { "texto": "Golpearme el pecho y respirar hondo. Avanzar.", "resultado": "#camino_grava" }
+      ]
+    },
+    {
+      "id": "camino_grava",
+      "tipo": "evento",
+      "ascii": "camino_grava.txt",
+      "descripcion": "El camino cruje bajo tus botas. A la izquierda, cercas de hierro con púas; a la derecha, cruces vacías, sin cuerpos. Cada poste tiene placas numeradas: nombres arrancados. Más adelante, una puerta secundaria clavada con remaches, y un callejón que bordea el foso del castillo.",
+      "opciones": [
+        { "texto": "Ir a la puerta secundaria clavada.", "resultado": "#puerta_clavos" },
+        { "texto": "Bordear el foso por el callejón estrecho.", "resultado": "#callejon_foso" }
+      ]
+    },
+    {
+      "id": "puerta_clavos",
+      "tipo": "evento",
+      "ascii": "puerta_clavos.txt",
+      "descripcion": "La puerta está reforzada con tiras de hierro y clavos negros. Al tocarla, vibra un poco: del otro lado, pasos en ritmo de oración. Un pequeño ventanuco se abre: un ojo con párpado cosido te observa, juzgando. El olor a sudor y cera es intenso.",
+      "opciones": [
+        { "texto": "Golpear para pedir paso.", "resultado": "#patrulla_silente_comb" },
+        { "texto": "Retirarme hacia el foso.", "resultado": "#callejon_foso" }
+      ]
+    },
+    {
+      "id": "patrulla_silente_comb",
+      "tipo": "combate",
+      "descripcion": "La puerta se abre lo justo. Un guardia con casco sin visera sale en silencio. Su pechera lleva grabada una lágrima invertida. Alza una maza corta hecha para romper hueso sin salpicar.",
+      "enemigos": [
+        {
+          "nombre": "Guardia Silente",
+          "ascii": "guardia.txt",
+          "stats": { "LEVEL": 1, "HP": 52, "ATK": 12, "DEF": 5, "AG": 5 },
+          "habilidades": [],
+          "xp": 22
+        }
+      ],
+      "victoria": "#post_patrulla",
+      "derrota": "FIN"
+    },
+    {
+      "id": "post_patrulla",
+      "tipo": "historia",
+      "ascii": "sangre_piedra.txt",
+      "descripcion": "El guardia cae sin un quejido. La sangre se filtra entre las grietas de la piedra y desaparece, como si el castillo la bebiera. El ventanuco vuelve a cerrarse con un chasquido. Un timbre lejano repica, bajo, insistente.",
+      "opciones": [
+        { "texto": "Bordear hacia el foso.", "resultado": "#callejon_foso" },
+        { "texto": "Buscar otro acceso por el puente.", "resultado": "#puente_hierro" }
+      ]
+    },
+    {
+      "id": "callejon_foso",
+      "tipo": "evento",
+      "ascii": "callejon.txt",
+      "descripcion": "El callejón huele a humedad y metal. A tus pies, rejillas donde corre un hilo de agua negra. Del otro lado del muro, escuchás golpes lentos: alguien está clavando algo en madera. Sobre tu cabeza, ganchos oxidados con sogas, vacíos.",
+      "opciones": [
+        { "texto": "Seguir bordeando hasta el puente principal.", "resultado": "#puente_hierro" },
+        { "texto": "Descender por una rejilla suelta al foso.", "resultado": "#foso_bajo" }
+      ]
+    },
+    {
+      "id": "puente_hierro",
+      "tipo": "evento",
+      "ascii": "puente_hierro.txt",
+      "descripcion": "El puente levadizo del Castillo Gris es una plancha de hierro puro, remachada con cabeza de clavo del tamaño de un puño. Dos estandartes grises cuelgan sin dibujo alguno. En lo alto, un vigía inmóvil.",
+      "opciones": [
+        { "texto": "Intentar cruzar sin llamar la atención.", "resultado": "#vigia_arco_comb" },
+        { "texto": "Buscar una bajada hacia el foso desde aquí.", "resultado": "#foso_bajo" }
+      ]
+    },
+    {
+      "id": "vigia_arco_comb",
+      "tipo": "combate",
+      "descripcion": "Una flecha se clava cerca de tus botas. El Vigía del Arco apunta al pecho; lleva un rosario de clavos en el hombro.",
+      "enemigos": [
+        {
+          "nombre": "Vigía del Arco",
+          "ascii": "arq_vigia.txt",
+          "stats": { "LEVEL": 1, "HP": 50, "ATK": 13, "DEF": 5, "AG": 6 },
+          "habilidades": [],
+          "xp": 22
+        }
+      ],
+      "victoria": "#acantilado_estandartes",
+      "derrota": "FIN"
+    },
+    {
+      "id": "acantilado_estandartes",
+      "tipo": "historia",
+      "ascii": "acantilado.txt",
+      "descripcion": "Desde el borde del puente, ves el foso: agua oscura, espesa, con manchas de aceite. Al fondo, estandartes desgarrados encajados entre rocas, como tumores de tela. Un campanario de concreto se alza detrás de la muralla, sin campanas a la vista.",
+      "opciones": [
+        { "texto": "Entrar por una tronera lateral abierta.", "resultado": "#porton_exterior_gate" },
+        { "texto": "Descender hacia un túnel del foso.", "resultado": "#foso_bajo" }
+      ]
+    },
+    {
+      "id": "porton_exterior_gate",
+      "tipo": "evento",
+      "ascii": "porton.txt",
+      "descripcion": "Un portón de servicio encajado en concreto, reforzado por barras cruzadas. Sobre la entrada, una frase tallada: \"La altura acerca al cielo\". La cerradura está escarchada, pero una barra quedó mal puesta.",
+      "opciones": [
+        { "texto": "Forzar la barra y pasar.", "resultado": "#patio_fosos" },
+        { "texto": "Volver al borde del foso.", "resultado": "#foso_bajo" }
+      ]
+    },
+    {
+      "id": "foso_bajo",
+      "tipo": "evento",
+      "ascii": "foso.txt",
+      "descripcion": "La humedad te atraviesa. El foso huele a sangre vieja y combustible. Burbujas aceitosas estallan con pequeños chasquidos. En la piedra, marcas de uñas. Algo se mueve en el agua, algo pequeño y rápido.",
+      "opciones": [
+        { "texto": "Seguir el túnel de mantenimiento.", "resultado": "#catacumba_bajo_puente" },
+        { "texto": "Explorar la margen donde se escuchan chillidos.", "resultado": "#foso_ratas_comb" }
+      ]
+    },
+    {
+      "id": "foso_ratas_comb",
+      "tipo": "combate",
+      "descripcion": "Ratas hinchadas por el aceite emergen de agujeros en la piedra. Una más grande te mira con ojos vidriosos antes de saltar.",
+      "enemigos": [
+        {
+          "nombre": "Rata Aceitosa",
+          "ascii": "rat.txt",
+          "stats": { "LEVEL": 1, "HP": 32, "ATK": 9, "DEF": 2, "AG": 7 },
+          "habilidades": [],
+          "xp": 12
+        }
+      ],
+      "victoria": "#catacumba_bajo_puente",
+      "derrota": "FIN"
+    },
+    {
+      "id": "catacumba_bajo_puente",
+      "tipo": "historia",
+      "ascii": "catacumbas.txt",
+      "descripcion": "Un corredor bajo la plancha del puente. Pilares de concreto con marcas de dedos; cadenas ancladas a la pared. Velas consumidas hasta el hierro. Una puerta baja con bisagras nuevas conduce a un patio interno.",
+      "opciones": [
+        { "texto": "Abrir la puerta baja.", "resultado": "#patio_fosos" },
+        { "texto": "Investigar un hueco entre pilares.", "resultado": "#altares_oxido" }
+      ]
+    },
+    {
+      "id": "altares_oxido",
+      "tipo": "evento",
+      "ascii": "altar_oxido.txt",
+      "descripcion": "Un nicho con tres pequeños altares de hierro. No hay santos, solo placas en blanco y manchas marrones. Los bordes tienen marcas de cuchillo. A un lado, un cuenco de clavos y cabellos.",
+      "opciones": [
+        { "texto": "Dejar el lugar y avanzar al patio.", "resultado": "#patio_fosos" },
+        { "texto": "Marcar la placa con mi uña.", "resultado": "#patio_fosos" }
+      ]
+    },
+    {
+      "id": "patio_fosos",
+      "tipo": "historia",
+      "ascii": "patio.txt",
+      "descripcion": "Un patio hundido, sin árboles. El suelo es una sola plancha de concreto agrietado. En el centro, una cruz de hierro sin figura. Pasillos en cada lado llevan a hornos, almacenes y una escalinata que asciende en espiral hacia las torres.",
+      "opciones": [
+        { "texto": "Ir a los hornos apagados.", "resultado": "#callejon_hornos" },
+        { "texto": "Subir la escalinata hacia las torres.", "resultado": "#plaza_cadenas" }
+      ]
+    },
+    {
+      "id": "callejon_hornos",
+      "tipo": "evento",
+      "ascii": "hornos.txt",
+      "descripcion": "Hileras de hornos industriales empotrados en el muro. Fríos, sellados con placas. Un olor dulzón pega en la garganta. Alguien raspó con una punta: \"EL FUEGO ES UN PECADO\".",
+      "opciones": [
+        { "texto": "Forzar una placa, mirar adentro.", "resultado": "#guardia_fervoroso_comb" },
+        { "texto": "Volver al patio y subir.", "resultado": "#plaza_cadenas" }
+      ]
+    },
+    {
+      "id": "guardia_fervoroso_comb",
+      "tipo": "combate",
+      "descripcion": "Del horno se arrastra un guardia con brazal de clavos. Sus labios están cosidos por dentro; la piel de su cara se ha pegado al casco. Empuña un hierro de templar que aún conserva calor prohibido.",
+      "enemigos": [
+        {
+          "nombre": "Guardia Fervoroso",
+          "ascii": "fervor.txt",
+          "stats": { "LEVEL": 1, "HP": 60, "ATK": 14, "DEF": 6, "AG": 5 },
+          "habilidades": [],
+          "xp": 28
+        }
+      ],
+      "victoria": "#plaza_cadenas",
+      "derrota": "FIN"
+    },
+    {
+      "id": "plaza_cadenas",
+      "tipo": "historia",
+      "ascii": "plaza_cadenas.txt",
+      "descripcion": "Una explanada interior. Columnas de hierro sostienen pasarelas elevadas. De ellas cuelgan cadenas gruesas con anillas vacías. Arriba, ves puertas sin barandas que dan a corredores altos, reservados, silenciosos. Más alto todavía, la torre del campanario sin campanas.",
+      "opciones": [
+        { "texto": "Tomar el corredor lateral hacia la sacristía.", "resultado": "#sacristia_negra_evento" },
+        { "texto": "Subir por una escalera estrecha hacia otra planta.", "resultado": "#cripta_lateral" }
+      ]
+    },
+    {
+      "id": "sacristia_negra_evento",
+      "tipo": "evento",
+      "ascii": "sacristia.txt",
+      "descripcion": "Una sala sin íconos, solo percheros con hábitos mojados de sangre seca. Sobre una mesa, instrumentos para coser piel y alambre fino. En una esquina, una mujer observa desde las sombras: la capucha le cubre media cara; la otra media está marcada por quemaduras antiguas.",
+      "opciones": [
+        { "texto": "Hablarle en voz baja.", "resultado": "#monja_sin_lengua_npc" },
+        { "texto": "Ignorarla y continuar.", "resultado": "#cripta_lateral" }
+      ]
+    },
+    {
+      "id": "monja_sin_lengua_npc",
+      "tipo": "historia",
+      "ascii": "monja.txt",
+      "descripcion": "La mujer se descubre la capucha. No tiene lengua: te muestra una cicatriz limpia, cortada por manos expertas. Habla con una tablilla de cera y un punzón. Escribe lento: \"EL REY DE ARRIBA NO REZA. SE ALIMENTA\". Te señala la torre. Luego escribe: \"AYUDO SI ME PROMETÉS APAGARLO\". Te entrega una llave pequeña y te marca, con sangre, un acceso oculto.",
+      "opciones": [
+        { "texto": "Tomar la llave y agradecer.", "resultado": "#plan_hoguera_evento" },
+        { "texto": "Rechazar su ayuda y seguir.", "resultado": "#cripta_lateral" }
+      ]
+    },
+    {
+      "id": "plan_hoguera_evento",
+      "tipo": "evento",
+      "ascii": "plan.txt",
+      "descripcion": "La monja traza un mapa en la cera: un pasillo oculto desde la cripta lateral te lleva a una antecámara bajo la sala del trono. Anota un detalle: \"EN LO ALTO HAY AIRE. ARRIBA, EL CALOR ESTÁ PROHIBIDO. PERO ÉL BRILLA\".",
+      "opciones": [
+        { "texto": "Guardar el mapa mental y avanzar.", "resultado": "#cripta_lateral" }
+      ]
+    },
+    {
+      "id": "cripta_lateral",
+      "tipo": "evento",
+      "ascii": "cripta.txt",
+      "descripcion": "Bóvedas bajas con columnas gruesas. Nichos sellados con placas sin nombre. El aire está quieto, como si alguien sostuviera la respiración del mundo. Un portón interior con cerradura pequeña, y un desvío hacia una biblioteca encadenada.",
+      "opciones": [
+        { "texto": "Usar la llave pequeña (si la tengo).", "resultado": "#antecamara_trono" },
+        { "texto": "Ir a la biblioteca encadenada.", "resultado": "#biblioteca_grapas" }
+      ]
+    },
+    {
+      "id": "biblioteca_grapas",
+      "tipo": "evento",
+      "ascii": "biblioteca.txt",
+      "descripcion": "Estantes de metal con libros cosidos a las tapas. Para abrirlos, hay que romper grapas. Títulos anulados con tinta negra. Un banco de lectura con correas. Hay marcas de uñas en el piso.",
+      "opciones": [
+        { "texto": "Forzar un volumen y leer unas líneas.", "resultado": "#campamento_profanos_evento" },
+        { "texto": "Salir y volver a la cripta.", "resultado": "#cripta_lateral" }
+      ]
+    },
+    {
+      "id": "campamento_profanos_evento",
+      "tipo": "historia",
+      "ascii": "profanos.txt",
+      "descripcion": "Entre páginas cosidas, un papel suelto: un croquis de pasadizos bajo el trono y un símbolo: una mano abierta con una brasa en el centro. Al dorso, una frase: \"NO TODO DOLOR ES ORACIÓN\". Alguien más odia al Rey.",
+      "opciones": [
+        { "texto": "Recordar el desvío bajo el trono.", "resultado": "#antecamara_trono" }
+      ]
+    },
+    {
+      "id": "antecamara_trono",
+      "tipo": "historia",
+      "ascii": "antec.txt",
+      "descripcion": "Una sala estrecha antes del gran salón. En las paredes, ganchos sin nada colgado. El suelo está pulido por muchas botas. Se escuchan pasos arriba, medidos, satisfechos. Una puerta pesada con tiradores fríos conduce a la plaza interior de cadenas que ascienden en vertical.",
+      "opciones": [
+        { "texto": "Avanzar hacia la plaza interior elevada.", "resultado": "#muralla_asalto_evento" },
+        { "texto": "Revisar un cuarto lateral con armaduras.", "resultado": "#herrero_penitente_npc" }
+      ]
+    },
+    {
+      "id": "herrero_penitente_npc",
+      "tipo": "evento",
+      "ascii": "herrero.txt",
+      "descripcion": "Un herrero con manos envueltas en vendas negras martilla en seco, sin fuego. Endereza clavos, endereza espadas torcidas, todo sin calor, como manda el dogma. Te mira sin levantar la cabeza y dice, ronco: \"Él se calienta arriba. Solo nosotros nos enfriamos\". Te ofrece una empuñadura mejor ajustada.",
+      "opciones": [
+        { "texto": "Agradecer y salir.", "resultado": "#muralla_asalto_evento" }
+      ]
+    },
+    {
+      "id": "muralla_asalto_evento",
+      "tipo": "evento",
+      "ascii": "muralla.txt",
+      "descripcion": "Una muralla interior con pasarelas que suben a la torre. Por encima, ves habitaciones con ventanas mínimas. No hay antorchas. Solo la luz tenue que cae desde arriba como un hilo. Un capitán con media armadura rota vigila el ascenso.",
+      "opciones": [
+        { "texto": "Encarar al capitán.", "resultado": "#capitan_escarnecido_comb" },
+        { "texto": "Intentar flanquear por una escalera de servicio.", "resultado": "#capitan_escarnecido_comb" }
+      ]
+    },
+    {
+      "id": "capitan_escarnecido_comb",
+      "tipo": "combate",
+      "descripcion": "El Capitán Escarnecido lleva el casco abierto, la cara llena de cicatrices viejas. No reza: sonríe. Empuña un mangual corto con clavos romos.",
+      "enemigos": [
+        {
+          "nombre": "Capitán Escarnecido",
+          "ascii": "capitan.txt",
+          "stats": { "LEVEL": 2, "HP": 95, "ATK": 17, "DEF": 8, "AG": 6 },
+          "habilidades": [],
+          "xp": 48
+        }
+      ],
+      "victoria": "#torre_campanas",
+      "derrota": "FIN"
+    },
+    {
+      "id": "torre_campanas",
+      "tipo": "historia",
+      "ascii": "torre.txt",
+      "descripcion": "La torre interior es un tubo de concreto con escaleras en espiral. A cada vuelta, el aire está más seco. No hay campanas, pero las paredes vibran con una nota que no es sonido. Arriba, una puerta doble de hierro con remaches dorados: la sala del trono.",
+      "opciones": [
+        { "texto": "Empujar las puertas.", "resultado": "#antesala_rey" },
+        { "texto": "Respirar hondo antes del final.", "resultado": "#antesala_rey" }
+      ]
+    },
+    {
+      "id": "antesala_rey",
+      "tipo": "historia",
+      "ascii": "antesala.txt",
+      "descripcion": "Un pasillo corto con losas impecables. En nichos, cascos vacíos alineados como calaveras grises. No hay guardias. En el aire, calor. Contra todo dogma, aquí arriba se permite. Al fondo, la luz de una hoguera oculta se proyecta por las juntas de una puerta mayor.",
+      "opciones": [
+        { "texto": "Entrar a la sala del trono.", "resultado": "#rey_fanatico_comb" }
+      ]
+    },
+    {
+      "id": "rey_fanatico_comb",
+      "tipo": "combate",
+      "descripcion": "El Rey del Castillo Gris se sienta frente a una brasa alta escondida tras un biombo de hierro calado. La corona es una jaula invertida que le perfora el cuero cabelludo. Sus manos tiemblan por el calor robado que el dogma prohíbe a todos los demás. Al verte, se pone de pie con una espada ancha sin filo, hecha para aplastar.",
+      "enemigos": [
+        {
+          "nombre": "Rey del Castillo Gris",
+          "ascii": "rey.txt",
+          "stats": { "LEVEL": 3, "HP": 140, "ATK": 20, "DEF": 10, "AG": 6 },
+          "habilidades": [],
+          "xp": 90
+        }
+      ],
+      "victoria": "#epilogo_porton",
+      "derrota": "FIN"
+    },
+    {
+      "id": "epilogo_porton",
+      "tipo": "historia",
+      "ascii": "epilogo.txt",
+      "descripcion": "El Rey cae. La brasa detrás del biombo respira dos veces y se apaga como si hubiese estado esperando permiso. Desde lo alto de la torre, el viento entra por una grieta y baja por toda la catedral de concreto. Abajo, alguien suelta un llanto corto, contenido, como si no supiera si reír o rezar. Una puerta trasera se abre hacia los distritos bajos. El mundo no mejora; solo cambia de forma.",
+      "opciones": [
+        { "texto": "Abandonar el Castillo Gris.", "resultado": "zona2_distritos_bajos.json#entrada" }
+      ]
+    }
+  ]
+}
