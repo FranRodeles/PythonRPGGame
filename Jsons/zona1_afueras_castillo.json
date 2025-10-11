@@ -42,7 +42,7 @@
           "ascii": "guardia.txt",
           "stats": { "LEVEL": 1, "HP": 52, "ATK": 12, "DEF": 5, "AG": 5 },
           "habilidades": [],
-          "xp": 22
+          "xp": 20
         }
       ],
       "victoria": "#post_patrulla",
@@ -88,7 +88,7 @@
           "ascii": "arq_vigia.txt",
           "stats": { "LEVEL": 1, "HP": 50, "ATK": 13, "DEF": 5, "AG": 6 },
           "habilidades": [],
-          "xp": 22
+          "xp": 25
         }
       ],
       "victoria": "#acantilado_estandartes",
@@ -134,7 +134,7 @@
           "ascii": "rat.txt",
           "stats": { "LEVEL": 1, "HP": 32, "ATK": 9, "DEF": 2, "AG": 7 },
           "habilidades": [],
-          "xp": 12
+          "xp": 15
         }
       ],
       "victoria": "#catacumba_bajo_puente",
@@ -190,7 +190,7 @@
           "ascii": "fervor.txt",
           "stats": { "LEVEL": 1, "HP": 60, "ATK": 14, "DEF": 6, "AG": 5 },
           "habilidades": [],
-          "xp": 28
+          "xp": 30
         }
       ],
       "victoria": "#plaza_cadenas",
@@ -303,7 +303,7 @@
           "ascii": "capitan.txt",
           "stats": { "LEVEL": 2, "HP": 95, "ATK": 17, "DEF": 8, "AG": 6 },
           "habilidades": [],
-          "xp": 48
+          "xp": 50
         }
       ],
       "victoria": "#torre_campanas",
@@ -338,7 +338,7 @@
           "ascii": "rey.txt",
           "stats": { "LEVEL": 3, "HP": 140, "ATK": 20, "DEF": 10, "AG": 6 },
           "habilidades": [],
-          "xp": 90
+          "xp": 60
         }
       ],
       "victoria": "#epilogo_porton",
