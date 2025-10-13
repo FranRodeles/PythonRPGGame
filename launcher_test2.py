@@ -31,37 +31,135 @@ FIRST_ZONE_FILE = "zona1_afueras_castillo.json"  # archivo inicial en ./Jsons/
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
 
+
 def level_up_menu(player):
-    """Menú simple en consola para asignar puntos."""
-    while player.puntos_atributos > 0:
-        os.system("cls" if os.name == "nt" else "clear")
-        print("--ASIGNACION DE PUNTOS--")
-        print(f"\n{player.name} - Nivel {player.level}")
-        print(f"Puntos disponibles: {player.puntos_atributos}")
-        print("\n1. Ataque:", player.atk)
-        print("2. Defensa:", player.defense)
-        print("3. Magia:", player.mage)
-        print("4. Precisión:", player.accuracy)
-        print("5. Vida:", player.vida)
-        print("6. Terminar asignación\n")
+    """
+    Menú de subida de nivel con Rich + teclas (↑/↓/Enter/Esc).
+    Cambios pedidos:
+      - NO aparece la opción "Vida" en el menú.
+      - Vida NO se asigna aquí; se suma automáticamente +10 al subir de nivel.
+      - Solo se reparten los 3 puntos en: Ataque, Defensa, Magia, Precisión.
+      - Al salir del menú, limpiar la pantalla (clear()).
 
-        op = input("Selecciona atributo para mejorar: ")
-        if op == "1":
-            player.atk += 1
-        elif op == "2":
-            player.defense += 1
-        elif op == "3":
-            player.mage += 1
-        elif op == "4":
-            player.accuracy += 1
-        elif op == "5":
-            player.vida += 5
-        elif op == "6":
-            break
-        else:
-            continue
+    Controles:
+      - ↑/↓: mover selección
+      - Enter: asignar 1 punto al atributo seleccionado
+      - Esc o "Terminar": salir del menú
+    """
+    selected = 0
+    confirm = False
+    quit_flag = False
 
-        player.puntos_atributos -= 1
+    # Opciones SIN vida (Vida ahora es +10 automático al subir de nivel)
+    opciones = [
+        ("Ataque",    "atk",      1),
+        ("Defensa",   "defense",  1),
+        ("Magia",     "mage",     1),
+        ("Precisión", "accuracy", 1),
+        ("Terminar",  None,       None),
+    ]
+
+    def on_press(key):
+        nonlocal selected, confirm, quit_flag
+        try:
+            ch = key.char.lower() if hasattr(key, "char") and key.char else None
+        except:
+            ch = None
+
+        if key == keyboard.Key.up or ch == "w":
+            selected -= 1
+        elif key == keyboard.Key.down or ch == "s":
+            selected += 1
+        elif key == keyboard.Key.enter:
+            confirm = True
+        elif key == keyboard.Key.esc or ch == "q":
+            quit_flag = True
+    # La función (interna) se encuentra en línea 63
+
+    listener = keyboard.Listener(on_press=on_press)
+    listener.start()
+
+    def render_panel():
+        nonlocal selected
+
+        # clamp visual para no salirnos
+        if selected < 0:
+            selected = len(opciones) - 1
+        if selected >= len(opciones):
+            selected = 0
+
+        # Título con estado del jugador y puntos disponibles
+        header = Panel.fit(
+            f"[bold green]{player.name}[/bold green]  •  Nivel [cyan]{player.level}[/cyan]\n"
+            f"Puntos disponibles: [bold yellow]{player.puntos_atributos}[/bold yellow]",
+            border_style="bright_black"
+        )
+
+        # Tabla con atributos y selección (sin vida)
+        table = Table(show_header=True, header_style="bold magenta")
+        table.add_column(" ", width=3, justify="center")
+        table.add_column("Atributo / Acción", style="yellow")
+        table.add_column("Valor actual", justify="center")
+
+        valores = {
+            "atk": player.atk,
+            "defense": player.defense,
+            "mage": player.mage,
+            "accuracy": player.accuracy,
+        }
+
+        for i, (texto, clave, inc) in enumerate(opciones):
+            cursor = "→" if i == selected else " "
+            if clave is None:
+                table.add_row(cursor, texto, "[dim]-[/dim]")  # Terminar
+            else:
+                table.add_row(cursor, texto, str(valores[clave]))
+
+        footer = Panel(
+            "[dim]Usá ↑/↓ para elegir • Enter para asignar • Esc para salir[/dim]",
+            border_style="bright_black"
+        )
+
+        layout = Table.grid(padding=(0,1))
+        layout.add_row(header)
+        layout.add_row(table)
+        layout.add_row(footer)
+
+        return Panel(layout, border_style="white")
+    # La función (interna) se encuentra en línea 96
+
+    try:
+        with Live(render_panel(), refresh_per_second=30, screen=True) as live:
+            while True:
+                if quit_flag or player.puntos_atributos <= 0:
+                    break
+
+                live.update(render_panel())
+
+                if confirm:
+                    confirm = False
+                    texto, clave, inc = opciones[selected]
+
+                    if clave is None:
+                        # 'Terminar'
+                        break
+
+                    if player.puntos_atributos <= 0:
+                        continue
+
+                    # Asignar +1 al atributo elegido (vida no aparece acá)
+                    current = getattr(player, clave, None)
+                    if isinstance(current, int):
+                        setattr(player, clave, current + inc)
+                        player.puntos_atributos -= 1
+
+                time.sleep(0.05)
+    finally:
+        listener.stop()
+        # limpiar pantalla al salir del menú de level up
+        clear()
+# La función se encuentra en línea 40
+
 
 # =========================
 # GAME LOOP (como test.py)
@@ -86,8 +184,7 @@ def run_game(player):
     def Prioridad_Ataque():
         nonlocal combat_enemy, player_battle, combat_log
 
-        # Si el jugador actúa primero (aquí comparamos velocidad del enemigo contra precisión del jugador,
-        # aunque esa comparación es extraña, la mantuve para respetar tu lógica original)
+        # Si el jugador actúa primero (comparación spd vs accuracy manteniendo tu lógica)
         if combat_enemy.spd <= player_battle.accuracy:
             # Ataque del jugador
             dado_player = random.randint(1, 20)
@@ -148,16 +245,22 @@ def run_game(player):
         # Enemigo muerto
         if combat_enemy is not None and combat_enemy.vida <= 0:
             combat_log.append(f"{combat_enemy.name} cae derrotado.")
-                        # --- sistema de experiencia --
+            # --- sistema de experiencia --
             player.experience += 80
             # Subida de nivel
             if player.experience >= 100:
                 player.experience -= 100
                 player.level += 1
                 player.puntos_atributos += 3
-                combat_log.append(f"¡Subiste al nivel {player.level}! Tienes {player.puntos_atributos} puntos para asignar.")
+                # Vida +10 automático al subir de nivel (pedido)
+                player.vida += 10
+                combat_log.append(
+                    f"¡Subiste al nivel {player.level}! +10 VIDA. Puntos para asignar: {player.puntos_atributos}."
+                )
                 time.sleep(1)
+                # Abrir menú de asignación (solo stats, sin vida) y limpiar al salir
                 level_up_menu(player)
+                clear()  # limpiar también al volver del submenú (por si quedó algo en buffer)
 
             next_str = nodo.get("victoria")
             status = reader.jump_to_result(next_str)
