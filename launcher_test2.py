@@ -25,7 +25,7 @@ console = Console()
 STATE_MAIN = "main"
 STATE_CHAR = "characters"
 
-FIRST_ZONE_FILE = "zona1_tutorial.json"  # archivo inicial en ./Jsons/
+FIRST_ZONE_FILE = "zona1_afueras_castillo.json"  # archivo inicial en ./Jsons/
 
 
 def clear():
