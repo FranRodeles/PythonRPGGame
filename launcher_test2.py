@@ -25,7 +25,7 @@ console = Console()
 STATE_MAIN = "main"
 STATE_CHAR = "characters"
 
-FIRST_ZONE_FILE = "zona1_afueras_castillo.json"  # archivo inicial en ./Jsons/
+FIRST_ZONE_FILE = "zona1_tutorial.json"  # archivo inicial en ./Jsons/
 
 
 def clear():
@@ -53,7 +53,6 @@ def run_game(player):
     # --------- Funciones auxiliares de combate (anidadas) ----------
     # Se definen aquí para que tengan acceso a las variables locales mediante nonlocal.
     def Prioridad_Ataque():
-        """Realiza el intercambio de golpes según prioridad. Modifica combat_enemy, player_battle y combat_log."""
         nonlocal combat_enemy, player_battle, combat_log
 
         # Si el jugador actúa primero (aquí comparamos velocidad del enemigo contra precisión del jugador,
@@ -118,6 +117,20 @@ def run_game(player):
         # Enemigo muerto
         if combat_enemy is not None and combat_enemy.vida <= 0:
             combat_log.append(f"{combat_enemy.name} cae derrotado.")
+                        # --- sistema de experiencia --
+            player.exp += 80
+            # Subida de nivel
+            if player.exp >= 100:
+                player.exp -= 100
+                player.level += 1
+                player.puntos_atributos += 3
+                combat_log.append(f"¡Subiste al nivel {player.level}! Tienes {player.puntos_atributos} puntos para asignar.")
+                time.sleep(1)
+            
+            if player.puntos_atributos > 0:
+                level_up_menu(player)
+
+
             next_str = nodo.get("victoria")
             status = reader.jump_to_result(next_str)
             in_combat = False
@@ -453,10 +466,37 @@ def main():
         while running:
             time.sleep(0.05)
 
+def level_up_menu(player):
+    """Menú simple en consola para asignar puntos."""
+    while player.puntos_atributos > 0:
+        os.system("cls" if os.name == "nt" else "clear")
+        print("--ASIGNACION DE PUNTOS--")
+        print(f"\n{player.name} - Nivel {player.level}")
+        print(f"Puntos disponibles: {player.puntos_atributos}")
+        print("\n1. Ataque:", player.atk)
+        print("2. Defensa:", player.defense)
+        print("3. Magia:", player.mage)
+        print("4. Precisión:", player.accuracy)
+        print("5. Vida:", player.vida)
+        print("6. Terminar asignación\n")
+
+        op = input("Selecciona atributo para mejorar: ")
+        if op == "1":
+            player.atk += 1
+        elif op == "2":
+            player.defense += 1
+        elif op == "3":
+            player.mage += 1
+        elif op == "4":
+            player.accuracy += 1
+        elif op == "5":
+            player.vida += 5
+        elif op == "6":
+            break
+        else:
+            continue
+
+        player.points_to_allocate -= 1
 
 if __name__ == "__main__":
     main()
-
-
-
-
