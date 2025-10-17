@@ -62,7 +62,7 @@ class main_character(Menu):
 
 # ------ datos del submenú (pueden venir de un JSON si querés) ------
 text = "[bold magenta]⚔️ Selección de Personajes ⚔️[/bold magenta]"
-# ... (resto igual)
+
 
 character = [
     {
@@ -85,6 +85,3 @@ character = [
     },
 ]
 
-
-
-# Este módulo ya no maneja teclado por sí mismo: lo hace launcher.py

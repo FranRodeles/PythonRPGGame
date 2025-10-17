@@ -48,5 +48,6 @@ def create_player_from_menu_dict(d: dict) -> Player:
         vida=d["vida"],
         level=d["level"],
         experience=0,  # experiencia siempre arranca en 0 
+        
     )
 

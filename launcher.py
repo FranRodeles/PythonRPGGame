@@ -34,7 +34,6 @@ def clear():
     """Helper para limpiar pantalla. Usamos esto cada vez que cambiamos de vista."""
     os.system("cls" if os.name == "nt" else "clear")
 
-
 def level_up_menu(player):
     """
     Menú de subida de nivel con Rich + teclas (↑/↓/Enter/Esc).
@@ -206,18 +205,18 @@ def run_game(player):
         if combat_enemy is not None and combat_enemy.vida <= 0:
             combat_log.append(f"{combat_enemy.name} cae derrotado.")
 
-            # Experiencia y subida de nivel (regla simple para la demo)
+            # Experiencia y subida de nivel 
             player.experience += 80
             if player.experience >= 100:
                 player.experience -= 100
                 player.level += 1
                 player.puntos_atributos += 3
-                player.vida += 10  # +10 vida automática al subir de nivel (tu regla)
+                player.vida += 10  # +10 vida automática al subir de nivel 
                 combat_log.append(
                     f"¡Subiste al nivel {player.level}! +10 VIDA. Puntos para asignar: {player.puntos_atributos}."
                 )
                 time.sleep(0.6)
-                # Abrimos submenú de asignación de puntos (sin tocar vida aquí)
+                # Abrimos submenú de asignación de puntos
                 level_up_menu(player)
                 clear()
 
@@ -284,7 +283,7 @@ def run_game(player):
 
         # --- combate ---
         if nodo.get("tipo") == "combate":
-            # Si es la primera vez que vemos ESTE nodo, armamos la batalla (deepcopy del player para no pisarlo)
+            # Si es la primera vez que vemos ESTE nodo, armamos la batalla
             if last_node_id != nodo.get("id"):
                 enemigo_raw = nodo["enemigos"][0]
                 combat_enemy = Enemy.from_json(enemigo_raw)  # construyo objeto enemigo desde el JSON del nodo
@@ -306,15 +305,8 @@ def run_game(player):
             ascii_text = ""
             if getattr(combat_enemy, "ascii", None):
                 try:
-                    p = Path(combat_enemy.ascii)
-                    if not p.exists():
-                        p = Path("./Ascii") / combat_enemy.ascii
-                    if not p.exists():
-                        p = Path("./Asciis") / combat_enemy.ascii
-                    if not p.exists():
-                        p = Path("./Jsons") / combat_enemy.ascii
-                    if p.exists():
-                        ascii_text = p.read_text(encoding="utf-8")
+                    p = Path("./Jsons") / combat_enemy.ascii    
+                    ascii_text = p.read_text(encoding="utf-8")
                 except Exception:
                     ascii_text = ""
             if not ascii_text:
