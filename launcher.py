@@ -181,56 +181,155 @@ def run_game(player):
 
     # --------- Funciones auxiliares de combate (anidadas) ----------
     # Se definen aquí para que tengan acceso a las variables locales mediante nonlocal.
-    def Prioridad_Ataque():
+
+    def Prioridad_Ataque(tipo):
         nonlocal combat_enemy, player_battle, combat_log
 
         # Si el jugador actúa primero (comparación spd vs accuracy manteniendo tu lógica)
-        if combat_enemy.spd <= player_battle.accuracy:
-            # Ataque del jugador
-            dado_player = random.randint(1, 20)
-            if dado_player < 18:
-                dmg = max(1, player_battle.atk - combat_enemy.defense)
-                combat_enemy.vida -= dmg
-                combat_log.append(f"{player_battle.name} ataca y causa {dmg} de daño a {combat_enemy.name}.")
-            else:
-                dmg = max(1, player_battle.atk - combat_enemy.defense) * 2
-                combat_enemy.vida -= dmg
-                combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg} de daño.")
+        if type == "Paladin":
 
-            # Turno del enemigo (si sigue vivo)
-            if combat_enemy.vida > 0:
-                dado_enemy = random.randint(1, 20)
-                if dado_enemy < 19:
-                    edmg = max(1, combat_enemy.atk - player_battle.defense)
-                    player_battle.vida -= edmg
-                    combat_log.append(f"{combat_enemy.name} contraataca e inflige {edmg} de daño.")
-                else:
-                    edmg = max(1, combat_enemy.atk - player_battle.defense) * 2
-                    player_battle.vida -= edmg
-                    combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
-        else:
-            # Enemigo ataca primero
-            dado_enemy = random.randint(1, 20)
-            if dado_enemy < 19:
-                edmg = max(1, combat_enemy.atk - player_battle.defense)
-                player_battle.vida -= edmg
-                combat_log.append(f"{combat_enemy.name} ataca e inflige {edmg} de daño.")
-            else:
-                edmg = max(1, combat_enemy.atk - player_battle.defense) * 2
-                player_battle.vida -= edmg
-                combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
-
-            # Si el jugador sigue vivo, responde
-            if player_battle.vida > 0:
+            if combat_enemy.spd <= player_battle.accuracy:
+                # Ataque del jugador
                 dado_player = random.randint(1, 20)
                 if dado_player < 18:
                     dmg = max(1, player_battle.atk - combat_enemy.defense)
                     combat_enemy.vida -= dmg
-                    combat_log.append(f"{player_battle.name} contraataca y causa {dmg} de daño a {combat_enemy.name}.")
+                    combat_log.append(f"{player_battle.name} ataca y causa {dmg} de daño a {combat_enemy.name}.")
                 else:
                     dmg = max(1, player_battle.atk - combat_enemy.defense) * 2
                     combat_enemy.vida -= dmg
                     combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg} de daño.")
+
+                # Turno del enemigo (si sigue vivo)
+                if combat_enemy.vida > 0:
+                    dado_enemy = random.randint(1, 20)
+                    if dado_enemy < 19:
+                        edmg = max(1, combat_enemy.atk - player_battle.defense)
+                        player_battle.vida -= edmg
+                        combat_log.append(f"{combat_enemy.name} contraataca e inflige {edmg} de daño.")
+                    else:
+                        edmg = max(1, combat_enemy.atk - player_battle.defense) * 2
+                        player_battle.vida -= edmg
+                        combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
+            else:
+                # Enemigo ataca primero
+                dado_enemy = random.randint(1, 20)
+                if dado_enemy < 19:
+                    edmg = max(1, combat_enemy.atk - player_battle.defense)
+                    player_battle.vida -= edmg
+                    combat_log.append(f"{combat_enemy.name} ataca e inflige {edmg} de daño.")
+                else:
+                    edmg = max(1, combat_enemy.atk - player_battle.defense) * 2
+                    player_battle.vida -= edmg
+                    combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
+
+                # Si el jugador sigue vivo, responde
+                if player_battle.vida > 0:
+                    dado_player = random.randint(1, 20)
+                    if dado_player < 18:
+                        dmg = max(1, player_battle.atk - combat_enemy.defense)
+                        combat_enemy.vida -= dmg
+                        combat_log.append(f"{player_battle.name} contraataca y causa {dmg} de daño a {combat_enemy.name}.")
+                    else:
+                        dmg = max(1, player_battle.atk - combat_enemy.defense) * 2
+                        combat_enemy.vida -= dmg
+                        combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg} de daño.")
+        elif tipo == "Wizard":
+            if combat_enemy.spd <= player_battle.accuracy:
+                # Ataque del jugador
+                dado_player = random.randint(1, 20)
+                if dado_player < 18:
+                    dmg = max(1, player_battle.mage - combat_enemy.defense) * 1.4
+                    combat_enemy.vida -= dmg
+                    combat_log.append(f"{player_battle.name} ataca y causa {dmg} de daño a {combat_enemy.name}.")
+                else:
+                    dmg = max(1, player_battle.mage - combat_enemy.defense) * 2
+                    combat_enemy.vida -= dmg
+                    combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg} de daño.")
+
+                # Turno del enemigo (si sigue vivo)
+                if combat_enemy.vida > 0:
+                    dado_enemy = random.randint(1, 20)
+                    if dado_enemy < 19:
+                        edmg = max(1, combat_enemy.atk - player_battle.defense)
+                        player_battle.vida -= edmg
+                        combat_log.append(f"{combat_enemy.name} contraataca e inflige {edmg} de daño.")
+                    else:
+                        edmg = max(1, combat_enemy.atk - player_battle.defense) * 2
+                        player_battle.vida -= edmg
+                        combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
+            else:
+                # Enemigo ataca primero
+                dado_enemy = random.randint(1, 20)
+                if dado_enemy < 19:
+                    edmg = max(1, combat_enemy.atk - player_battle.defense)
+                    player_battle.vida -= edmg
+                    combat_log.append(f"{combat_enemy.name} ataca e inflige {edmg} de daño.")
+                else:
+                    edmg = max(1, combat_enemy.atk - player_battle.defense) * 2
+                    player_battle.vida -= edmg
+                    combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
+
+                # Si el jugador sigue vivo, responde
+                if player_battle.vida > 0:
+                    dado_player = random.randint(1, 20)
+                    if dado_player < 18:
+                        dmg = max(1, player_battle.mage - combat_enemy.defense) * 1.4
+                        combat_enemy.vida -= dmg
+                        combat_log.append(f"{player_battle.name} contraataca y causa {dmg} de daño a {combat_enemy.name}.")
+                    else:
+                        dmg = max(1, player_battle.atk - combat_enemy.defense) * 2
+                        combat_enemy.vida -= dmg
+                        combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg} de daño.")
+        elif tipo == "Archer":
+            if combat_enemy.spd <= player_battle.accuracy:
+                # Ataque del jugador
+                dado_player = random.randint(1, 20)
+                if dado_player < 15:
+                    dmg = max(1, player_battle.accuracy - combat_enemy.defense) * 1.2
+                    combat_enemy.vida -= dmg
+                    combat_log.append(f"{player_battle.name} ataca y causa {dmg} de daño a {combat_enemy.name}.")
+                else:
+                    dmg = max(1, player_battle.accuracy - combat_enemy.defense) * 2
+                    combat_enemy.vida -= dmg
+                    combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg} de daño.")
+
+                # Turno del enemigo (si sigue vivo)
+                if combat_enemy.vida > 0:
+                    dado_enemy = random.randint(1, 20)
+                    if dado_enemy < 19:
+                        edmg = max(1, combat_enemy.atk - player_battle.defense)
+                        player_battle.vida -= edmg
+                        combat_log.append(f"{combat_enemy.name} contraataca e inflige {edmg} de daño.")
+                    else:
+                        edmg = max(1, combat_enemy.atk - player_battle.defense) * 2
+                        player_battle.vida -= edmg
+                        combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
+            else:
+                # Enemigo ataca primero
+                dado_enemy = random.randint(1, 20)
+                if dado_enemy < 19:
+                    edmg = max(1, combat_enemy.atk - player_battle.defense)
+                    player_battle.vida -= edmg
+                    combat_log.append(f"{combat_enemy.name} ataca e inflige {edmg} de daño.")
+                else:
+                    edmg = max(1, combat_enemy.atk - player_battle.defense) * 2
+                    player_battle.vida -= edmg
+                    combat_log.append(f"{combat_enemy.name} golpe crítico de {edmg}!")
+
+                # Si el jugador sigue vivo, responde
+                if player_battle.vida > 0:
+                    dado_player = random.randint(1, 20)
+                    if dado_player < 15:
+                        dmg = max(1, player_battle.accuracy - combat_enemy.defense) * 1.2
+                        combat_enemy.vida -= dmg
+                        combat_log.append(f"{player_battle.name} contraataca y causa {dmg} de daño a {combat_enemy.name}.")
+                    else:
+                        dmg = max(1, player_battle.accuracy - combat_enemy.defense) * 2
+                        combat_enemy.vida -= dmg
+                        combat_log.append(f"FELICIDADES {player_battle.name}! ¡Golpe crítico! {dmg} de daño.")
+
+            
 
     def Control_vida(nodo):
         """
@@ -447,7 +546,7 @@ def run_game(player):
                         if in_combat and combat_enemy is not None:
                             if selected == 0:  # Atacar
                                 # Llamamos a la función que realiza el intercambio de golpes
-                                Prioridad_Ataque()
+                                Prioridad_Ataque(player.type)
                                 # Verificamos muertes / saltos de nodo
                                 action, status = Control_vida(nodo)
                                 if action == "FIN":
