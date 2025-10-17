@@ -167,15 +167,15 @@ def level_up_menu(player):
 
 def run_game(player):
     """
-    Loop del juego propiamente dicho (como el test.py, pero integrado).
+    Loop del juego 
     Acá se carga el JSON inicial, se navega por nodos de historia y combate,
     y se integra el motor de pelea externo a través de resolve_turn().
 
     Flujo general:
       - Renderizamos pantalla según el tipo de nodo (historia/combate).
       - En combate, si el usuario elige “Atacar” y confirma: LLAMAMOS resolve_turn(...)
-        (eso vive en Figth/fight.py). resolve_turn actualiza los HP y escribe en combat_log.
-      - Control_vida(...) revisa muertes y hace los saltos de nodo (victoria/derrota/fin).
+        resolve_turn actualiza los HP y escribe en combat_log.
+      - Control_vida(...) revisa muertes y hace los saltos de nodo.
     """
     reader = JsonReader(Path("./Jsons"))
     reader.load_zone(FIRST_ZONE_FILE)
@@ -496,7 +496,6 @@ def main():
     """
     Launcher del juego: menú principal + selección de personaje.
     Este loop escucha teclado y, cuando el usuario confirma “Nuevo Juego”, llama a run_game(player).
-    Al volver de run_game (Esc en el juego), se re-muestra el menú principal.
     """
     state = STATE_MAIN
     running = True
