@@ -65,15 +65,26 @@ text = "[bold magenta]⚔️ Selección de Personajes ⚔️[/bold magenta]"
 # ... (resto igual)
 
 character = [
-    {"id": 0, "name": "Lobo",       "role": "Paladin", "desc": "El personaje más basado 😎",
-     "atk": 40, "acu": 7, "mag": 0,  "def": 5, "vida": 100, "level": 1},
-
-    {"id": 1, "name": "Gandalf",    "role": "Wizard",  "desc": "pi piri piri pi PI PI PIPI",
-     "atk": 3, "acu": 4, "mag": 10, "def": 2, "vida": 60,  "level": 1},
-
-    {"id": 2, "name": "Robin Hood", "role": "Archer",  "desc": "SI SACO LA GUN",
-     "atk": 3, "acu": 7, "mag": 4,  "def": 4, "vida": 80,  "level": 1},
+    {
+        "id": 0, "name": "Lobo", "role": "Paladin",
+        "desc": "El personaje más basado 😎",
+        "atk": 16, "acu": 8, "mag": 0, "def": 9,
+        "vida": 110, "level": 1
+    },
+    {
+        "id": 1, "name": "Gandalf", "role": "Wizard",
+        "desc": "pi piri piri pi PI PI PIPI",
+        "atk": 3, "acu": 9, "mag": 14, "def": 4,
+        "vida": 75, "level": 1
+    },
+    {
+        "id": 2, "name": "Robin Hood", "role": "Archer",
+        "desc": "SI SACO LA GUN",
+        "atk": 5, "acu": 14, "mag": 2, "def": 6,
+        "vida": 85, "level": 1
+    },
 ]
+
 
 
 # Este módulo ya no maneja teclado por sí mismo: lo hace launcher.py
