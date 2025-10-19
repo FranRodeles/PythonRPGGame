@@ -67,19 +67,19 @@ text = "[bold magenta]⚔️ Selección de Personajes ⚔️[/bold magenta]"
 character = [
     {
         "id": 0, "name": "Lobo", "role": "Paladin",
-        "desc": "El personaje más basado 😎",
+        "desc": "Personaje equilibrado, con mucha vida y daño base normal",
         "atk": 16, "acu": 8, "mag": 0, "def": 9,
         "vida": 110, "level": 1
     },
     {
         "id": 1, "name": "Gandalf", "role": "Wizard",
-        "desc": "pi piri piri pi PI PI PIPI",
+        "desc": "Realiza 40 % mas de daño, pero tiene menos defensa y salud",
         "atk": 3, "acu": 9, "mag": 14, "def": 4,
         "vida": 75, "level": 1
     },
     {
-        "id": 2, "name": "Robin Hood", "role": "Archer",
-        "desc": "SI SACO LA GUN",
+        "id": 2, "name": "Thyris", "role": "Archer",
+        "desc": "Realiza 20 % mas de daño y tiene mas probabilidad de impactar critico",
         "atk": 5, "acu": 14, "mag": 2, "def": 6,
         "vida": 85, "level": 1
     },

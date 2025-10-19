@@ -2,37 +2,37 @@
 from __future__ import annotations
 from typing import List, Optional
 import random
-import math
 
 # En el launcher, cuando el usuario elige “Atacar”, se llama:
 #   resolve_turn(player_battle, combat_enemy, combat_log)
 # y después el launcher chequea si alguien murió (Control_vida).
 
 
-def _crit_threshold_for_player(player_type: str) -> int:
+def _crit_threshold_for_player(player_type: str): #Funcion de Criticosv
     """
     Umbral de crítico según clase del jugador.
     - Paladin / Wizard: crit con 18, 19, 20 → umbral 18
     - Archer:           crit con 14..20     → umbral 14
 
     """
-    t = (player_type or "").strip().lower()
+    # Sirve para analizar que probabilidad de critico tiene el personaje
+    t = (player_type).strip().lower() # Toma el tipo del personaje
     if t == "archer":
         return 14
     # paladin y wizard comparten umbral 18
     return 18
 
-def _player_base_damage(player, enemy) -> float:
+def _player_base_damage(player, enemy):
     """
     Daño base (antes de crítico) según clase.
-    - Paladin: usa ATK
+    - Paladin: usa ATK * 1
     - Wizard:  usa MAGE * 1.4 
     - Archer:  usa ACCURACY * 1.2 
 
     También se resta DEF del enemigo (clásico).
     Siempre devolvemos al menos 1.0 de daño base.
     """
-    t = (player.type or "").strip().lower()
+    t = (player.type).strip().lower()
     if t == "wizard":
         return max(1.0, (player.mage  * 1.4 - enemy.defense))
     if t == "archer":
@@ -40,7 +40,8 @@ def _player_base_damage(player, enemy) -> float:
     # paladin (default)
     return max(1.0, (player.atk - enemy.defense))
 
-def _player_attack_once(player, enemy, log: List[str], rng: Optional[random.Random] = None) -> None:
+# Log = detalles de la batalla, rng = Dado 
+def _player_attack_once(player, enemy, log: List[str], rng: Optional[random.Random] = None):
     """
     Un solo golpe del jugador al enemigo (no decide orden, solo ejecuta el golpe).
     - Tira un d20 para ver si es crítico usando el umbral por clase.
