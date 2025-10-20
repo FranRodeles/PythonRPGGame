@@ -340,8 +340,7 @@ def run_game(player):
 
             # Header común
             header = Panel.fit(
-                f"[bold red]{reader.zone_name}[/bold red] • [cyan]{reader.current_file}[/cyan] • "
-                f"[magenta]Nodo:[/magenta] [white]{nodo['id']}[/white]",
+                f"[bold red]{reader.zone_name}[/bold red] • ",
                 border_style="bright_black",
             )
 
@@ -366,8 +365,7 @@ def run_game(player):
                 selected = 0
 
         header = Panel.fit(
-            f"[bold red]{reader.zone_name}[/bold red] • [cyan]{reader.current_file}[/cyan] • "
-            f"[magenta]Nodo:[/magenta] [white]{nodo['id']}[/white]",
+            f"[bold red]{reader.zone_name}[/bold red] • ",
             border_style="bright_black",
         )
 
@@ -489,8 +487,8 @@ def main():
     Launcher del juego: menú principal + selección de personaje.
     Este loop escucha teclado y, cuando el usuario confirma “Nuevo Juego”, llama a run_game(player).
     """
-    state = STATE_MAIN
-    running = True
+    state = STATE_MAIN #Menu principal, o seleccion de personaje, es para que on_press() sepa que atender
+    running = True #Mantiene el listener de pynput
 
     # Menú principal base (título y opciones)
     text_menu = "[bold red] Divine Light [/bold red]\n[yellow] Follow your own path [/yellow]"
