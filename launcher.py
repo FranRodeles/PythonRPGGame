@@ -114,9 +114,9 @@ def level_up_menu(player):
         for i, (texto, clave, inc) in enumerate(opciones):
             cursor = "→" if i == selected else " "
             if clave is None:
-                table.add_row(cursor, texto, "[dim]-[/dim]")  # “Terminar”
+                table.add_row(cursor, texto, "[dim]-[/dim]")  # Terminar
             else:
-                table.add_row(cursor, texto, str(valores[clave]))
+                table.add_row(cursor, texto, str(valores[clave])) # Las otras opciones
 
         footer = Panel(
             "[dim]Usá ↑/↓ para elegir • Enter para asignar • Esc para salir[/dim]",
@@ -133,7 +133,7 @@ def level_up_menu(player):
     # Loop del submenú de level-up
     try:
         with Live(render_panel(), refresh_per_second=30, screen=True) as live:
-            while True:
+            while True: # Loop donde se muestra todo, La logica
                 if quit_flag or player.puntos_atributos <= 0:
                     break
 
@@ -418,7 +418,7 @@ def run_game(player):
                                     live.update(Panel("[bold green]Fin.[/bold green]", border_style="green"))
                                     while not quit_flag:
                                         time.sleep(0.05)
-                                    break
+                                    break   
                                 elif action == "CONTINUE":
                                     live.update(render_screen())
                                     continue

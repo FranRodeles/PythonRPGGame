@@ -49,11 +49,13 @@ def _player_attack_once(player, enemy, log: List[str], rng: Optional[random.Rand
     - Redondeo y clamp a int >= 1.
     - Baja la vida del enemigo y anota en el log.
     """
+    # llamar a la biblioteca random
     r = rng or random
-    roll = r.randint(1, 20)
-    crit_threshold = _crit_threshold_for_player(player.type)
-    base = _player_base_damage(player, enemy)
+    roll = r.randint(1, 20) # Dado
+    crit_threshold = _crit_threshold_for_player(player.type) # Valores en los cuales el personaje hace critico
+    base = _player_base_damage(player, enemy) # Daño que hace el personaje normalmente
 
+     # dado = N° Critico
     if roll >= crit_threshold:
         dmg = int(max(1, round(base * 2)))
         enemy.vida -= dmg
@@ -66,13 +68,13 @@ def _player_attack_once(player, enemy, log: List[str], rng: Optional[random.Rand
 def _enemy_attack_once(enemy, player, log: List[str], rng: Optional[random.Random] = None) -> None:
     """
     Un solo golpe del enemigo al jugador (misma idea que el del jugador).
-    - Crítico del enemigo si tirada >= 19 (como venías usando).
-    - Daño base = max(1, enemy.atk - player.defense)
+    - Crítico del enemigo si tirada >= 19.
+    - Daño base = max(1, enemy.atk - player.defense).
     - Si crítico, *2.
     """
-    r = rng or random
+    r = rng or random # Dado
     roll = r.randint(1, 20)
-    base = max(1, enemy.atk - player.defense)
+    base = max(1, enemy.atk - player.defense) # Daño
     if roll >= 19:
         dmg = int(max(1, base * 2))
         player.vida -= dmg
@@ -88,12 +90,12 @@ def resolve_turn(player_battle, enemy, log: List[str], rng: Optional[random.Rand
     - Orden de prioridad : si enemy.SPD <= player.ACCURACY, pega primero el jugador.
     - Si el defensor sobrevive, responde (o sea, pueden pegar ambos en un turno).
     - Usa las reglas de daño y críticos pedidas:
-        * Paladin: daño con ATK; crit 18+
-        * Wizard:  daño con MAGE*1.4; crit 18+
-        * Archer:  daño con ACC*1.2; crit 14+
-      Enemigo: crit 19+
-    - Mutación in-place de vida y log (no retorna nada, deja todo listo
-      para que el launcher luego llame a Control_vida(...) y salte de nodo si corresponde).
+        * Paladin: daño con ATK; crit 18 >=
+        * Wizard:  daño con MAGE*1.4; crit 18 >=
+        * Archer:  daño con ACC*1.2; crit 14 >=
+      Enemigo: crit 19 >=
+    - Se analiza la velocidad de los dos y arranca el combate, dentro del combate tambien se analiza la vida de los personajes,
+      si uno de los personajes se queda sin vida el launcher llama a Control_vida(...) y salte de nodo si corresponde.
 
     Llamado desde: launcher.run_game(), dentro del bloque de combate,
     cuando el jugador elige “Atacar” y confirma con Enter.

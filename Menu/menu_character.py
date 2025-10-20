@@ -27,8 +27,7 @@ class main_character(Menu):
                 f"[bold]{char['name']}[/bold]\n\n"
                 f"{char['role']}\n\n"
                 f"{char['desc']}\n\n"
-                f"[bold red]LIFE[/bold red]: {char['vida']}  "
-                f"[bold orange1]ATK[/bold orange1]: {char['atk']}  "
+                f"[bold red]ATK[/bold red]: {char['atk']}  "
                 f"[bold blue]MAGE[/bold blue]: {char['mag']}  "
                 f"[bold white]ACCURACY[/bold white]: {char['acu']}  "
                 f"[bold green]DEFENSE[/bold green]: {char['def']}"
@@ -57,11 +56,11 @@ class main_character(Menu):
         self.current_option = (self.current_option + 1) % len(self.options)
         self.show()
 
-    def get_selected_character(self) -> dict:
+    def get_selected_character(self):
         return self.options[self.current_option]
 
 
-# ------ datos del submenú (pueden venir de un JSON si querés) ------
+# ------ datos del submenú ------
 text = "[bold magenta]⚔️ Selección de Personajes ⚔️[/bold magenta]"
 
 
