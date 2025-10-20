@@ -42,7 +42,7 @@ class JsonReader():
                 raise ValueError(f"ID de nodo duplicado: {node_id}")
             self.nodes_index[node_id] = nodo
 
-        # 5) Apuntar al primer nodo
+        # Apuntar al primer nodo
         if self.nodes_index:  
             self.current_node_id = list(self.nodes_index.keys())[0]
         else:

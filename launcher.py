@@ -493,7 +493,7 @@ def main():
     running = True
 
     # Menú principal base (título y opciones)
-    text_menu = "[bold red] Divine Light [/bold red]\n[yellow] This Game is Awesome [/yellow]"
+    text_menu = "[bold red] Divine Light [/bold red]\n[yellow] Follow your own path [/yellow]"
     options = {0: "Nuevo Juego", 1: "Cargar Partida", 2: "Salir del Juego"}
     main_menu = Menu(text_menu, options, console)
     main_menu.show()

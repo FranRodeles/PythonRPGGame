@@ -1,0 +1,84 @@
+{
+  "zona": "Distritos Bajos — Demo",
+  "nodos": [
+    {
+      "id": "entrada",
+      "tipo": "historia",
+      "ascii": "db_entrada.txt",
+      "descripcion": "Los distritos bajos huelen a carbón húmedo y sopa barata. Entre chapas y pasillos de hormigón, filtra una luz lechosa que no calienta a nadie. Un letrero torcido señala 'Mercado de Sombra' hacia la derecha y un callejón inundado desciende hacia el este.",
+      "opciones": [
+        { "texto": "Seguir el murmullo del mercado.", "resultado": "#mercado_sombra" },
+        { "texto": "Bajar por el callejón inundado.", "resultado": "#callejon_aguas" }
+      ]
+    },
+    {
+      "id": "mercado_sombra",
+      "tipo": "historia",
+      "ascii": "db_mercado.txt",
+      "descripcion": "Toldos de plástico negro hacen un techo bajo. Se intercambian latas por historias; clavos por tabaco húmedo. Al fondo, un fogón clandestino brilla dentro de un tambor oxidado. A su lado, alguien con máscara de tela remienda una olla.",
+      "opciones": [
+        { "texto": "Acercarte al fogón clandestino.", "resultado": "#npc_fogon_intro" },
+        { "texto": "Tomar una vía lateral hacia la plaza de humo.", "resultado": "#plaza_humo" }
+      ]
+    },
+    {
+      "id": "callejon_aguas",
+      "tipo": "historia",
+      "ascii": "db_callejon.txt",
+      "descripcion": "El agua te llega a los tobillos. Bajo la película aceitosa, flota serrín como si fuese nieve sucia. Alguien mueve una balsa mínima con un palo y te mira sin detenerse.",
+      "opciones": [
+        { "texto": "Pedir indicaciones hacia un lugar seguro.", "resultado": "#plaza_humo" },
+        { "texto": "Volver sobre tus pasos y buscar voces.", "resultado": "#mercado_sombra" }
+      ]
+    },
+    {
+      "id": "plaza_humo",
+      "tipo": "historia",
+      "ascii": "db_plaza.txt",
+      "descripcion": "Una explanada hundida sirve de plaza. El humo de varios tambores hace una nube baja, como un techo que se puede tocar. La gente habla con frases cortas, cuidando el aire.",
+      "opciones": [
+        { "texto": "Sentarte cerca del fogón común.", "resultado": "#npc_fogon_intro" },
+        { "texto": "Seguir hacia los talleres del fondo.", "resultado": "#despedida" }
+      ]
+    },
+    {
+      "id": "npc_fogon_intro",
+      "tipo": "historia",
+      "ascii": "npc_fogon.txt",
+      "descripcion": "La persona de máscara te ofrece un cuenco con algo que apenas humea. 'Si venís del Castillo, dejá las manos cerca del fuego, pero no demasiado. Acá el calor se reparte'. Te mide, sin agresión.",
+      "opciones": [
+        { "texto": "“¿Qué pasó con el Castillo?”", "resultado": "#npc_fogon_pedido" },
+        { "texto": "“Solo busco paso seguro.”", "resultado": "#npc_fogon_pedido" }
+      ]
+    },
+    {
+      "id": "npc_fogon_pedido",
+      "tipo": "historia",
+      "ascii": "npc_fogon.txt",
+      "descripcion": "“El Castillo cayó en su propio sermón,” dice. “Si vas al portón del sur, hay críos que no saben por dónde salir cuando baja la marea de ceniza. Si los cruzás, te debemos una.”",
+      "opciones": [
+        { "texto": "“Los acompaño hasta el portón.”", "resultado": "#despedida" },
+        { "texto": "“No puedo quedarme, debo seguir.”", "resultado": "#despedida" }
+      ]
+    },
+    {
+      "id": "despedida",
+      "tipo": "historia",
+      "ascii": "db_despedida.txt",
+      "descripcion": "Caminás entre pasillos que apenas son calles. La nube se abre un poco; la ciudad toma aire con vos. Un portón lateral se asoma detrás de una fábrica dormida. Alguien te hace una seña de agradecimiento, breve y sincera.",
+      "opciones": [
+        { "texto": "Acercarte al portón y mirar hacia afuera.", "resultado": "#gracias_demo" },
+        { "texto": "Quedarte un segundo más junto al fuego.", "resultado": "#gracias_demo" }
+      ]
+    },
+    {
+      "id": "gracias_demo",
+      "tipo": "historia",
+      "ascii": "db_fin.txt",
+      "descripcion": "Gracias por jugar. Esta fue una demo de los Distritos Bajos. El mundo no mejora; aprende a moverse.",
+      "opciones": [
+        { "texto": "Salir de la demo.", "resultado": "FIN" }
+      ]
+    }
+  ]
+}
